@@ -1,0 +1,741 @@
+@import url(itsblock.css);
+@import url(itsenemie.css);
+@import url(itsitem.css);
+html{
+	height:100%;
+	width: 100%;
+	overflow: hidden;
+}
+.gameInfo{
+	position:absolute;
+	top:0;
+	left:290px;	
+}
+.gameInfo .key{
+	display: inline-block;
+	background-color: #FFF;
+	border:1px solid #000;
+	padding:3px;
+	border-radius:3px;
+	width:20px;
+	height:20px;
+	text-align: center;
+	margin-top: 5px;
+}
+.gameInfo .spacebar{
+	width:70px;
+}
+.body{
+	/*height:100%;
+	width: 4000px;*/
+	position:relative;
+	width:256px;
+	height:230px;
+	margin:0;
+	padding:0;
+	/*
+	-webkit-transform:scale(2);
+	-webkit-transform-origin:left top;
+	-moz-transform:scale(2);
+	-moz-transform-origin:left top;
+	*/
+}
+#sceneView{
+	position:absolute;
+	height:84%;
+	width:100%;
+	top:0;
+	overflow: hidden;	
+}
+#mainScene{
+	/*background: transparent url(bg.png) no-repeat left bottom;*/
+	background-color:#6898F8;
+	position:absolute;
+	/*height:80%;*/
+	height:600px;
+	top:0;
+	overflow: hidden;
+}
+#infoBar{
+	/*position:fixed;*/
+	position:absolute;
+	bottom:0;
+	height:16%;
+	/*min-height:100px;*/
+	width:100%;
+	background-color:#000;
+	color:#FFF;
+	z-index: 1000;
+}
+#playerInfo{
+	float:left;
+	/*
+	width:60%;
+	height:80%;
+	*/
+	width:56%;
+	/*height:6em;*/
+	margin:2% 2%;
+	padding:3px 2px;
+	border:1px solid #000;
+	box-shadow: 1px 0 #FFF, -1px 0 #FFF, 0 2px #FFF, 0 -2px #FFF;
+	border-radius:2px;
+	background-color:#1B87E0;
+	color:#FFF;
+	text-shadow: 0 0 1px #000,  0 0 2px #000;
+	font:bold 6px startFace, Courier;
+}
+#levelName, #playerLives{
+	float:left;
+	clear:both;
+	width:35%;
+	font-size: 100%;	
+}
+#runPower, #playerScore{
+	float:left;
+	width:42%;
+}
+#playerCoin,  #timeLeft{
+	float:left;
+	width:21%;
+	text-align: right
+}
+#playerCoin .coin{
+	display:inline-block;
+	vertical-align: top;
+	margin:0;
+	padding:0;
+	-moz-animation:none;
+	-webkit-animation:none;
+	-moz-transform:scale(0.5) translateY(-3px);
+	-webkit-transform:scale(0.5) translateY(-3px);
+	-moz-transform-origin:right top;
+	-webkit-transform-origin:right top;
+}
+#runPower {
+	font-size: 7px;
+	-moz-transform:translateY(-2px);
+	-webkit-transform:translateY(-2px);
+	-moz-transform-origin:right top;
+	-webkit-transform-origin:right top;
+}
+#runPower .powerLevel{
+	color:#FFF;
+	text-shadow:0 0 1px #4BB7F0;
+}
+#runPower .powerLevel span{
+	color:#C90017;
+	text-shadow:0 1px #000,1px 0 #000,0 -1px #000,-1px 0 #000;
+}
+.superRun{
+	display:inline-block;
+	height:6px;
+	width:15px;
+	color:#4BB7F0;
+	text-align:center;
+	border:1px solid #4BB7F0;
+	text-shadow:0 0 1px #4BB7F0;
+	border-radius:2px;
+	font-weight: normal;
+}
+.superRun.on{
+	color:#FF5;
+	background-color:#C90017;;
+	border:1px solid #FFF;
+	text-shadow:none;
+	box-shadow:0 1px 1px #000;
+}
+/*utils class*/
+.rotate90{
+	-moz-transform:rotate(90deg);
+	-webkit-transform:rotate(90deg);
+}
+.rotate180{
+	-moz-transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);	
+}
+.rotate270{
+	-moz-transform:rotate(270deg);
+	-webkit-transform:rotate(270deg);	
+}
+.scaleY-1{
+	-moz-transform:scaleY(-1);
+	-webkit-transform:scaleY(-1);
+}
+.scaleX-1{
+	-moz-transform:scaleX(-1);
+	-webkit-transform:scaleX(-1);
+}
+.scale-1{
+	-moz-transform:scale(-1);
+	-webkit-transform:scale(-1);
+}
+.shadowPanel{
+	box-shadow:8px 8px 0 rgba(0,0,0,0.5);
+	border-radius:2px;
+}
+.noBdLeft{
+	border-left:none 0;
+}
+.noBdRight{
+	border-right:none 0;
+}
+.noBdTop{
+	border-top:none 0;
+}
+.noBdBottom{
+	border-bottom:none 0;
+}
+/*It's ME, MARIO!*/
+#marioMove{
+	position:absolute;
+	bottom:62px;
+	/*overflow: hidden;*/
+	width: 12px;
+	height: 16px;
+	z-index: 500;
+}
+#mario{
+	background:transparent url(images/mario.png) no-repeat -50px -19px;
+	width: 15px;
+	height: 16px;
+	position:absolute;
+	left:0;
+	-webkit-animation-timing-function:step-start;
+	-moz-animation-timing-function:step-start;	
+}
+#marioMove.run #mario{
+	-webkit-animation:runMario 0.15s infinite step-start;
+	-moz-animation:runMario 0.15s infinite step-start;
+}
+@-webkit-keyframes runMario{
+	0%, 100%{background-position:-50px -19px;}
+	50%{background-position:-75px -19px;}
+}
+@-moz-keyframes runMario{
+	0%, 100%{background-position:-50px -19px;}
+	50%{background-position:-75px -19px;}
+}
+
+#marioMove.turnRight #mario{
+	-moz-transform:scaleX(-1);
+	-webkit-transform:scaleX(-1);
+	-o-transform:scaleX(-1);
+	transform:scaleX(-1);	
+	left:-4px;
+}
+
+#marioMove.couch {
+	height: 16px;
+	}
+#marioMove.couch #mario{
+	background-position:-275px -20px;
+}
+#marioMove.jump{
+	/*
+	-webkit-animation:jumpMario 1.1s 1 ease;
+	-moz-animation:jumpMario 1.1s 1 ease;
+	*/			
+}
+
+#marioMove.surf{
+-webkit-transform: scaleX(-1);
+-moz-transform: scaleX(-1);
+}
+#marioMove.surf #mario{
+	background-position:-125px -19px;
+	-webkit-animation:none;
+	-moz-animation:none;	
+}
+#marioMove.seated #mario{
+	background-position:-300px -19px;
+}
+#marioMove.jump #mario, #marioMove.falling #mario{
+	background-position:-150px -19px;
+	-webkit-animation:none;
+	-moz-animation:none;	
+}
+#marioMove.hold #mario{
+	background-position:-350px -19px;
+}
+#marioMove.hold.run #mario{
+	-webkit-animation:runMarioHold 0.15s infinite step-start;
+	-moz-animation:runMarioHold 0.15s infinite step-start;
+}
+@-webkit-keyframes runMarioHold{
+	0%, 100%{background-position:-350px -19px;}
+	50%{background-position:-400px -19px;}
+}
+@-moz-keyframes runMarioHold{
+	0%, 100%{background-position:-350px -19px;}
+	50%{background-position:-400px -19px;}
+}
+
+#marioMove.hold.jump #mario{
+	background-position:-375px -19px;
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.kickItem #mario{
+	background-position:-425px -19px;
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.straight.down, #marioMove.straight.up{
+	z-index:60 !important;
+	-moz-transform : translateY(40px);
+	-webkit-transform : translateY(40px);
+	-moz-transition:-moz-transform 1s linear;
+	-webkit-transition:-webkit-transform 1s linear;
+}
+#marioMove.straight.up{
+	-moz-transform : translateY(-40px);
+	-webkit-transform : translateY(-40px);
+}
+#marioMove.straight #mario{
+	background-position:-325px -19px;
+}
+#marioMove.straight.returnUp{
+	-webkit-animation:returnUp 1s 1 linear;
+	-moz-animation:returnUp 1s 1 linear;
+	z-index:60 !important;
+}
+@-webkit-keyframes returnUp{
+	0%{-webkit-transform : translateY(40px);}
+	100%{-webkit-transform : translateY(0);}
+}
+@-moz-keyframes returnUp {
+	0%{-moz-transform : translateY(40px);}
+	100%{-moz-transform : translateY(0);}
+}
+#marioMove.straight.returnDown{
+	-webkit-animation:returnDown 1s 1 linear;
+	-moz-animation:returnDown 1s 1 linear;
+	z-index:60 !important;
+}
+@-webkit-keyframes returnDown{
+	0%{-webkit-transform : translateY(-40px);}
+	100%{-webkit-transform : translateY(0);}
+}
+@-moz-keyframes returnDown{
+	0%{-moz-transform : translateY(-40px);}
+	100%{-moz-transform : translateY(0);}
+}
+
+#marioMove.run.superRuner #mario{
+	-webkit-animation:superRunMario 0.15s infinite step-start;
+	-moz-animation:superRunMario 0.15s infinite step-start;
+}
+@-webkit-keyframes superRunMario{
+	0%, 100%{background-position:-175px -19px;}
+	50%{background-position:-200px -19px;}
+}
+@-moz-keyframes superRunMario{
+	0%, 100%{background-position:-175px -19px;}
+	50%{background-position:-200px -19px;}
+}
+
+@-webkit-keyframes dieMario{
+	100%{-webkit-transform : translateY(400px);}
+	50%{-webkit-transform : translateY(-50px);}		
+}
+@-moz-keyframes dieMario{
+	100%{-moz-transform : translateY(100px);}
+	50%{-moz-transform : translateY(-50px);}		
+}
+
+#marioMove.starInvicible {
+	-webkit-animation:invicibleStar 0.1s infinite step-start;
+	-moz-animation:invicibleStar 0.1s infinite step-start;
+}
+
+@-webkit-keyframes invicibleStar{
+	0, 100%{opacity: 1;}
+	50%{opacity: 0;}		
+}
+@-moz-keyframes invicibleStar{
+	0, 100%{opacity: 1;}
+	50%{opacity: 0;}		
+}
+/* Grand Mario */
+
+#marioMove.grand{	
+	width: 12px;
+	height: 28px;
+}
+#marioMove.grand{	
+	width: 12px;
+	height: 28px;	
+}
+#marioMove.grand #mario{
+	background-position: -50px -49px;
+	width: 16px;
+	height: 28px;
+}
+#marioMove.run.grand #mario{
+	-webkit-animation:runMarioGrand 0.20s infinite step-start;
+	-moz-animation:runMarioGrand 0.20s infinite step-start;
+}
+@-webkit-keyframes runMarioGrand{
+	0%, 100%{background-position:-50px -49px;}
+	25%, 75%{background-position:-75px -49px;}
+	50%{background-position:-100px -49px;}
+}
+@-moz-keyframes runMarioGrand{
+	0%, 100%{background-position:-50px -49px;}
+	25%, 75%{background-position:-75px -49px;}
+	50%{background-position:-100px -49px;}
+}
+#marioMove.surf.grand #mario{
+	background-position:-125px -49px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.couch.grand {
+	height: 18px;
+	}
+#marioMove.couch.grand #mario{
+	background-position:-275px -60px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.jump.couch.grand, #marioMove.falling.couch.grand {
+	width: 16px;
+	height: 28px;
+	}
+#marioMove.jump.grand #mario{
+	background-position:-150px -50px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.falling.grand #mario{
+	background-position:-100px -50px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.seated.grand #mario{
+	background-position:-300px -60px;
+}
+#marioMove.hold.grand #mario{
+	background-position:-350px -49px;
+}
+#marioMove.hold.grand.run #mario{
+	-webkit-animation:runHoldMarioGrand 0.15s infinite step-start;
+	-moz-animation:runHoldMarioGrand 0.15s infinite step-start;
+}
+@-webkit-keyframes runHoldMarioGrand{
+	0%, 100%{background-position:-350px -49px;}
+	50%{background-position:-400px -49px;}
+}
+@-moz-keyframes runHoldMarioGrand{
+	0%, 100%{background-position:-350px -49px;}
+	50%{background-position:-400px -49px;}
+}
+#marioMove.hold.grand.jump #mario{
+	background-position:-375px -49px;	
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.kickItem.grand #mario{
+	background-position:-425px -49px;
+	width:21px;
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.straight.grand #mario{
+	background-position:-325px -51px;
+}
+#marioMove.grand.run.superRuner #mario{
+	-webkit-animation:superRunMarioGrand 0.20s infinite step-start;
+	-moz-animation:superRunMarioGrand 0.20s infinite step-start;
+}
+@-webkit-keyframes superRunMarioGrand{
+	0%, 100%{background-position:-175px -49px;}
+	25%, 75%{background-position:-200px -49px;}
+	50%{background-position:-225px -49px;}
+}
+@-moz-keyframes superRunMarioGrand{
+	0%, 100%{background-position:-175px -49px;}
+	25%, 75%{background-position:-200px -49px;}
+	50%{background-position:-225px -49px;}
+}
+/*Mario fleur*/
+#marioMove.fleur{
+	width: 12px;
+	height: 28px;
+}
+#marioMove.fleur #mario{
+	background-position: -50px  -90px;
+	width: 16px;
+	height: 28px;
+}
+#marioMove.run.fleur #mario{
+	-webkit-animation:runMarioFleur 0.2s infinite step-start;
+	-moz-animation:runMarioFleur 0.2s infinite step-start;
+}
+@-webkit-keyframes runMarioFleur{
+	0%, 100%{background-position:-50px -90px;}
+	25%, 75%{background-position:-75px -90px;}
+	50%{background-position:-100px -90px;}
+}
+@-moz-keyframes runMarioFleur{
+	0%, 100%{background-position:-50px -90px;}
+	25%, 75%{background-position:-75px -90px;}
+	50%{background-position:-100px -90px;}
+}
+#marioMove.fleur.fire #mario{
+	background-position:-725px -90px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.surf.fleur #mario{
+	background-position:-125px -90px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.couch.fleur {
+	height: 18px;
+	}
+#marioMove.couch.fleur #mario{
+	background-position:-275px -100px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.jump.couch.fleur, #marioMove.falling.couch.fleur {
+	width: 16px;
+	height: 28px;
+	}
+#marioMove.jump.fleur #mario{
+	background-position:-150px -90px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.seated.fleur #mario{
+	background-position:-300px -100px;
+}
+#marioMove.falling.fleur #mario{
+	background-position:-100px -90px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.hold.fleur #mario{
+	background-position:-350px -90px;
+}
+#marioMove.hold.fleur.run #mario{
+	-webkit-animation:runHoldMarioFleur 0.15s infinite step-start;
+	-moz-animation:runHoldMarioFleur 0.15s infinite step-start;
+}
+@-webkit-keyframes runHoldMarioFleur{
+	0%, 100%{background-position:-350px -90px;}
+	50%{background-position:-400px -90px;}
+}
+@-moz-keyframes runHoldMarioFleur{
+	0%, 100%{background-position:-350px -90px;}
+	50%{background-position:-400px -90px;}
+}
+#marioMove.hold.fleur.jump #mario{
+	background-position:-375px -90px;	
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.kickItem.fleur #mario{
+	background-position:-425px -90px;
+	width:21px;
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.straight.fleur #mario{
+	background-position:-325px -92px;
+}
+#marioMove.fleur.run.superRuner #mario{
+	-webkit-animation:superRunMarioFleur 0.20s infinite step-start;
+	-moz-animation:superRunMarioFleur 0.20s infinite step-start;
+}
+@-webkit-keyframes superRunMarioFleur{
+	0%, 100%{background-position:-175px -92px;}
+	25%, 75%{background-position:-200px -92px;}
+	50%{background-position:-225px -92px;}
+}
+@-moz-keyframes superRunMarioFleur{
+	0%, 100%{background-position:-175px -92px;}
+	25%, 75%{background-position:-200px -92px;}
+	50%{background-position:-225px -92px;}
+}
+
+/*Mario Racoon*/
+#marioMove.racoon{
+	width: 12px;
+	height: 28px;
+}
+#marioMove.racoon #mario{
+	background-position: -50px  -137px;
+	width: 23px;
+	height: 28px;
+	left:-5px;
+}
+#marioMove.run.racoon #mario{
+	-webkit-animation:runMarioRacoon 0.2s infinite step-start;
+	-moz-animation:runMarioRacoon 0.2s infinite step-start;
+}
+@-webkit-keyframes runMarioRacoon{
+	0%, 100%{background-position:-50px -137px;}
+	25%, 75%{background-position:-75px -137px;}
+	50%{background-position:-100px -137px;}
+}
+@-moz-keyframes runMarioRacoon{
+	0%, 100%{background-position:-50px -137px;}
+	25%, 75%{background-position:-75px -137px;}
+	50%{background-position:-100px -137px;}
+}
+#marioMove.racoon.fire #mario{
+	background-position:-725px -137px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.surf.racoon #mario{
+	background-position:-125px -137px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+/*
+#marioMove.jump.couch.racoon, #marioMove.falling.couch.racoon {
+	width: 16px;
+	height: 28px;
+	}
+	*/
+#marioMove.jump.racoon #mario{
+	background-position:-150px -137px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.falling.racoon #mario{
+	background-position:-100px -137px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.seated.racoon #mario{
+	background-position:-300px -137px;
+}
+#marioMove.couch.racoon {
+	height: 18px;
+	}
+#marioMove.couch.racoon #mario{
+	background-position:-275px -147px;
+	-webkit-animation:none;
+	-moz-animation:none;
+}
+#marioMove.hold.racoon #mario{
+	background-position:-350px -137px;
+}
+#marioMove.hold.racoon.run #mario{
+	-webkit-animation:runHoldMarioRacoon 0.15s infinite step-start;
+	-moz-animation:runHoldMarioRacoon 0.15s infinite step-start;
+}
+@-webkit-keyframes runHoldMarioRacoon{
+	0%, 100%{background-position:-350px -137px;}
+	50%{background-position:-400px -137px;}
+}
+@-moz-keyframes runHoldMarioRacoon{
+	0%, 100%{background-position:-350px -137px;}
+	50%{background-position:-400px -137px;}
+}
+#marioMove.hold.racoon.jump #mario{
+	background-position:-375px -137px;	
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.racoon.plane #mario{
+	-webkit-animation:planeRacoon 0.3s infinite step-start;
+	-moz-animation:planeRacoon 0.3s infinite step-start;
+}
+@-webkit-keyframes planeRacoon{
+	0%, 100%{background-position:-802px -137px;}
+	25%, 75%{background-position:-826px -137px;}
+	50%{background-position:-851px -137px;}
+}
+@-moz-keyframes planeRacoon{
+	0%, 100%{background-position:-802px -137px;}
+	25%, 75%{background-position:-826px -137px;}
+	50%{background-position:-851px -137px;}
+}
+#marioMove.racoon.run.superRuner #mario{
+	-webkit-animation:superRunMarioRacoon 0.20s infinite step-start;
+	-moz-animation:superRunMarioRacoon 0.20s infinite step-start;
+}
+@-webkit-keyframes superRunMarioRacoon{
+	0%, 100%{background-position:-175px -137px;}
+	25%, 75%{background-position:-200px -137px;}
+	50%{background-position:-225px -137px;}
+}
+@-moz-keyframes superRunMarioRacoon{
+	0%, 100%{background-position:-175px -137px;}
+	25%, 75%{background-position:-200px -137px;}
+	50%{background-position:-225px -137px;}
+}
+#marioMove.racoon.jump.superRuner #mario{
+	-webkit-animation:superRunJumpMarioRacoon 0.20s infinite step-start;
+	-moz-animation:superRunJumpMarioRacoon 0.20s infinite step-start;
+}
+@-webkit-keyframes superRunJumpMarioRacoon{
+	0%, 100%{background-position:-750px -137px;}
+	50%{background-position:-775px -137px;}
+}
+@-moz-keyframes superRunJumpMarioRacoon{
+	0%, 100%{background-position:-750px -137px;}
+	50%{background-position:-775px -137px;}
+}
+
+#marioMove.kickItem.racoon #mario{
+	background-position:-425px -137px;
+	width:21px;
+	-webkit-animation:none;
+	-moz-animation:none;		
+}
+#marioMove.straight.racoon #mario{
+	background-position:-327px -137px;
+}
+#marioMove.racoon.hit #mario{
+	-webkit-animation:hitRacoon 0.3s 1 step-start;
+	-moz-animation:hitRacoon 0.3s infinite step-start;
+}
+@-webkit-keyframes hitRacoon{
+	0%, 100%{background-position:-50px -137px;width:23px;}
+	25%{background-position:-326px -137px;width:23px;}
+	50%{background-position:-698px -137px;width:28px;}
+	75%{background-position:-725px -137px;width:23px;}
+}
+@-moz-keyframes hitRacoon{
+	0%, 100%{background-position:-50px -137px;width:23px;}
+	25%{background-position:-326px -137px;width:23px;}
+	50%{background-position:-698px -137px;width:28px;}
+	75%{background-position:-725px -137px;width:23px;}
+}
+
+
+#marioMove.dying{
+	-webkit-animation:dieMario 1s 1 ease 0.5s forwards;
+	-moz-animation:dieMario 1s 1 ease 0.5s forwards;
+}
+#marioMove.dying #mario{
+	background-position:-700px -19px;	
+	-webkit-animation:none;
+	-moz-animation:none;
+	width:16px;
+	height:16px;	
+}
+
+.message {
+	position:absolute;
+	left:0;
+	top:10%;
+	width:100%;
+	font:normal 10px startFace, Arial;
+	color:#FFF;
+	text-shadow: 0 0 2px #000;
+	text-align:center;
+	z-index: 1000;
+}
+@font-face {
+    font-family: startFace;
+    src: url(prstartk.ttf);
+}

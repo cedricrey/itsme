@@ -1,0 +1,35 @@
+@import url(itsblock.css);
+@import url(itsenemie.css);
+@import url(itsitem.css);
+@import url(itsme.css);
+
+
+#mainScene{
+	background-image:none;
+}
+
+#mario{
+	background-image:none !important;
+	background-color: #F00;
+}
+.mushroom, .flower {
+	background-image: none;
+	background-color: #0D0;
+	border-radius: 5px;	
+}
+.flowerFire{
+	background-image: none;
+	background-color: #F90;	
+}
+.koopa, .flyingKoopa, .koopaShell{
+	background-image: none;
+	background-color:#000;
+}
+.sol, .tuyau{
+	background-image: none;
+	background-color: #090;		
+}
+.bonusMushroom, .brickBlock, .emptyBlock{
+	background-image: none;
+	background-color: #FF0;	
+}

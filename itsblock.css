@@ -1,0 +1,274 @@
+/*Blocks*/
+.tuyau{
+	background-image: url(images/blocks.png), url(images/blocks.png);	
+	background-position:-92px -102px, -92px -106px;
+	background-repeat: no-repeat;
+	width:32px;
+	height:48px;	
+}
+.hTube{
+	background-image: url(images/horizontal.png);	
+	background-position:0 1px;
+	background-repeat: repeat-x;
+	height:32px;
+	max-height:32px;
+	min-height:32px;
+}
+.hTubeEnd{
+	background-image: url(images/blocks.png);	
+	background-position:-126px -102px;
+	background-repeat: no-repeat;
+	width:16px;
+	height:32px;	
+}
+.bonusMushroom, .brickBlock, .emptyBlock, .woodBlock, .cloudBlock
+{
+	background:transparent url(images/blocks.png) -32px -32px;
+	width:16px;
+	height:16px;	
+}
+.orangePanel1{
+	border:8px solid #f89048;
+	background-color:#f89048;
+	-webkit-border-image: url(images/panel_orange.png) 8 repeat;
+	-moz-border-image: url(images/panel_orange.png) 8 repeat;
+	-o-border-image: url(images/panel_orange.png) 8 repeat;
+	border-image: url(images/panel_orange.png) 8 repeat;
+}
+.bluePanel1{
+	border:8px solid #f89048;
+	background-color:#f89048;
+	-webkit-border-image: url(images/panel_blue.png) 8 repeat;
+	-moz-border-image: url(images/panel_blue.png) 8 repeat;
+	-o-border-image: url(images/panel_blue.png) 8 repeat;
+	border-image: url(images/panel_blue.png) 8 repeat;
+}
+.greenPanel1{
+	border:8px solid #f89048;
+	background-color:#f89048;
+	-webkit-border-image: url(images/panel_green.png) 8 repeat;
+	-moz-border-image: url(images/panel_green.png) 8 repeat;
+	-o-border-image: url(images/panel_green.png) 8 repeat;
+	border-image: url(images/panel_green.png) 8 repeat;
+}
+.greyPanel1{
+	border:8px solid #f89048;
+	background-color:#f89048;
+	-webkit-border-image: url(images/panel_grey.png) 8 repeat;
+	-moz-border-image: url(images/panel_grey.png) 8 repeat;
+	-o-border-image: url(images/panel_grey.png) 8 repeat;
+	border-image: url(images/panel_grey.png) 8 repeat;
+}
+
+.bonusMushroom{
+	-webkit-animation:bonusRoll 0.7s infinite step-start;
+	-moz-animation:bonusRoll 0.7s infinite step-start;	
+}
+@-webkit-keyframes bonusRoll{
+	0%, 100%{background-position:-32px -32px;}
+	25%{background-position:-49px -32px;}
+	50%{background-position:-66px -32px;}
+	75%{background-position:-83px -32px;}
+}
+@-moz-keyframes bonusRoll{
+	0%, 100%{background-position:-32px -32px;}
+	25%{background-position:-49px -32px;}
+	50%{background-position:-66px -32px;}
+	75%{background-position:-83px -32px;}
+}
+
+.brickBlock {
+ 	background-position:-3px -123px;
+	-webkit-animation:brickRoll 1.2s infinite step-end;
+	-moz-animation:brickRoll 1.2s infinite step-end ; 	
+}
+@-webkit-keyframes brickRoll{
+	0%, 100%{background-position:-3px -123px;}
+	20%{background-position:-20px -123px;}
+	40%{background-position:-37px -123px;}
+	60%{background-position:-54px -123px;}
+}
+@-moz-keyframes brickRoll{
+	0%, 100%{background-position:-3px -123px;}
+	25%{background-position:-20px -123px;}
+	50%{background-position:-37px -123px;}
+	75%{background-position:-54px -123px;}
+}
+.brickPart1, .brickPart2, .brickPart3, .brickPart4{
+	background:transparent url(images/blocks.png) -3px -123px;
+	width:8px;
+	height:8px;
+	top:0;
+	left:0;
+	position:absolute;
+	-webkit-animation:brickSplash 0.3s 1 linear;
+	-moz-animation:brickSplash 0.3s 1 linear;	
+}
+.brickPart1, .brickPart2{	
+	-webkit-transform-origin-y: 5px;	
+}
+.brickPart1, .brickPart3{	
+	-webkit-transform-origin-x: -5px;	
+}
+.brickPart2, .brickPart4{
+	left:8px;
+	-webkit-animation-name:brickSplash2;
+	-moz-animation-name:brickSplash2;	
+	-webkit-transform-origin-x: 5px;
+}
+.brickPart3, .brickPart4{
+	top:10px;
+	-webkit-transform-origin-y: 10px;
+}
+
+@-webkit-keyframes brickSplash{
+	0%{-webkit-transform:rotate(0) translate(0,0);}
+	50%{-webkit-transform:rotate(-20deg) translate(-10px,-20px);}
+	100%{-webkit-transform:rotate(-40deg) translate(-20px,-40px);}
+}
+@-webkit-keyframes brickSplash2{
+	0%{-webkit-transform:rotate(0deg) translate(0,0) scaleX(-1);}
+	50%{-webkit-transform:rotate(20deg) translate(-10px,-20px) scaleX(-1);}
+	100%{-webkit-transform:rotate(40deg) translate(-20px,-40px) scaleX(-1);}
+}
+
+@-moz-keyframes brickSplash{
+	0%{-moz-transform:translate(0)}
+	50%{-moz-transform:translate(-5px, -10px)}
+	100%{-moz-transform:translate(-10px, 0)}
+}
+@-moz-keyframes brickSplash2{
+	0%{-moz-transform:translate(0)}
+	50%{-moz-transform:translate(5px, -10px)}
+	100%{-moz-transform:translate(10px, 0)}
+}
+
+.emptyBlock {
+ 	background-position:-100px -32px;
+}
+.woodBlock{
+ 	background-position:-3px -103px;	
+}
+.cloudBlock{
+ 	background-position:-3px -163px;	
+}
+.boingUp{
+	-webkit-animation:boingUp 0.3s 1 ease;
+	-moz-animation:boingUp 0.3s 1 ease;	
+}
+@-webkit-keyframes boingUp{
+	0%, 100%{-webkit-transform:translateY(0);}
+	50%{-webkit-transform:translateY(-5px);}
+}
+@-moz-keyframes boingUp{
+	0%, 100%{-moz-transform:translateY(0)}
+	50%{-moz-transform:translateY(-5px)}
+}
+.verticalTube{
+	background: transparent url(images/vertical.png) repeat-y left top;
+	width:32px;
+}
+/*backgrounds*/
+#bg1, #bg2{
+	background: transparent url(images/marioBG1.png) repeat-x left top;
+	height:77px;
+	width:100%;
+}
+#bg1{
+	background-position:left 2px;
+	z-index: 3;
+}
+#bg2{
+	background-position:left -112px;
+	z-index: 2;
+}
+/*Ground*/
+.ground{
+	background: transparent url(images/grounds.png) repeat-x 0 -322px;
+	border:1px solid #000;
+	border-width:0 1px;
+	max-height: 42px;
+}
+.grass{
+	background: url(images/blocks.png) no-repeat -33px -229px;
+	width: 16px;
+	height: 16px;	
+}
+.grassGround{
+	background: transparent url(images/grounds.png) repeat-x 0 -228px;
+	max-height: 32px;
+}
+.grassGroundHigh{
+	background: transparent url(images/blocks.png) repeat-x -98px -163px;
+	width: 48px;
+	height: 64px;
+}
+.grassIncline45{
+	background: url(images/blocks.png) no-repeat -63px -229px;
+	width: 32px;
+	height: 32px;
+}
+.grassInclineN45{
+	background: url(images/blocks.png) no-repeat -99px -229px;
+	width: 32px;
+	height: 32px;
+}
+.grassIncline22{
+	background: url(images/blocks.png) no-repeat -33px -164px;
+	max-width: 64px;
+	max-height: 32px;
+}
+.grassInclineN22{
+	background: url(images/blocks.png) no-repeat -157px -164px;
+	max-width: 64px;
+	max-height: 32px;
+}
+
+.grassBlock{
+	border-width:8px 8px 16px;
+	-webkit-border-image: url(images/grassBlock.png) 8 8 16 8 repeat;
+	-moz-border-image: url(images/grassBlock.png) 8 8 16 8 repeat;
+	-o-border-image: url(images/grassBlock.png) 8 8 16 8 repeat;
+	border-image: url(images/grassBlock.png) 8 8 16 8 repeat;
+}
+/*Decorations*/
+.waterDeco{
+	background: transparent url(images/grounds.png) repeat-x 0 -264px;
+	width:100%;
+	max-height: 53px;
+}
+.cloudDeco{
+	background: url('images/deco.png') no-repeat -40px -139px;
+	width: 256px;
+	height: 213px;
+}
+.palmTree{
+	background: url('images/deco.png') no-repeat -4px -169px;
+	width: 32px;
+	height: 64px;
+}
+.bush{
+	background: url('images/deco.png') no-repeat -4px -148px;
+	width: 16px;
+	height: 17px;
+}
+.dome1 { 
+	background: url('images/deco.png') no-repeat -2px -1px;
+	width: 128px; 
+	height: 64px;
+}
+.dome2 { 
+	background: url('images/deco.png') no-repeat -205px -2px; 
+	width: 80px; 
+	height: 64px; 
+}
+.dome3 { 
+	background: url('images/deco.png') no-repeat -3px -71px;
+	width: 127px;
+	height: 64px;
+}
+.dome4 { 
+	background: url('images/deco.png') no-repeat -131px -87px; 
+	width: 63px; 
+	height: 48px;
+}

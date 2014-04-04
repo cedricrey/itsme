@@ -1,0 +1,67 @@
+
+/*Items*/
+.mushroom{
+	background: url('images/items.png') no-repeat -29px -4px;
+	width: 16px;
+	height: 16px;
+}
+.flower{
+	background: url('images/items.png') no-repeat -54px -4px;
+	width: 16px;
+	height: 16px;
+}
+.leaf{
+	background: url('images/items.png') no-repeat -105px -5px;
+	width: 16px;
+	height: 16px;
+}
+.coin{
+	background:transparent url(images/blocks.png) -164px -32px;
+	width: 16px;
+	height: 16px;
+	-webkit-animation:coin 0.5s infinite step-start;
+	-moz-animation:coin 0.5s infinite step-start;	
+}
+@-webkit-keyframes coin{
+	0%, 100%{background-position:-132px -32px;}
+	25% {background-position:-148px -32px;}
+	50%{background-position:-164px -32px;}
+	75% {background-position:-180px -32px;}
+}
+@-moz-keyframes coin{
+	0%, 100%{background-position:-132px -32px;}
+	25% {background-position:-148px -32px;}
+	50%{background-position:-164px -32px;}
+	75% {background-position:-180px x-32px;}
+}
+.flowerFire{
+	background: url('images/mario.png') no-repeat -5px -321px;
+	width: 8px;
+	height: 8px;
+	-webkit-animation:fireball 0.5s infinite step-start;
+	-moz-animation:fireball 0.5s infinite step-start;		
+}
+.flowerFire.dying{
+	-webkit-animation:none;
+	-moz-animation:none;
+	bottom:-10px;	
+}
+@-webkit-keyframes fireball{
+	0%, 100%{background-position:-5px -320px;}
+	25% {background-position:-16px -320px;}
+	50%{background-position:-27px -320px;}
+	75% {background-position:-38px -320px;}
+}
+@-moz-keyframes fireball{
+	0%, 100%{background-position:-5px -320px;}
+	25% {background-position:-16px -320px;}
+	50%{background-position:-27px -320px;}
+	75% {background-position:-38px -320px;}
+}
+
+.endBlock{
+	border:1px solid #FA9;
+	border-radius: 3px;
+	width:24px;
+	height:24px;
+}

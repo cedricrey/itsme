@@ -1,0 +1,3 @@
+level.blocks.sol.x +=10;
+level.blocks.sol.redraw()
+getAllElementsOver(level.blocks.sol,{evalFn:"this.y="+(level.blocks.sol.y+level.blocks.sol.h)+";this.x+=10"})

@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>test</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="itsme.css" />
+    <script type="text/javascript" src="jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="itsblock.js"></script>
+    <script type="text/javascript" src="itsitem.js"></script>
+    <script type="text/javascript" src="itsenemie.js"></script>
+	<link rel="stylesheet" type="text/css"
+    href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+    <style type="text/css">
+    body{
+    width:100%;
+	height:100%;
+	position:relative;
+	margin:0;
+	padding:0
+}
+#boardView{
+	width:70%;
+	height:97%;
+	overflow: scroll;
+	display:inline-block;
+}
+#levelBoard{
+	width:2000px;
+	height:600px;
+	position:relative;
+	background-color: #DEEFFF;
+}
+#levelBoard div{
+	cursor:pointer;
+}
+#cursorPreview {
+	cursor:crosshair;
+}
+.selected{
+	/*border:1px solid red;
+	-moz-transform:translate(-1px,-1px);
+	-webkit-transform:translate(-1px,-1px);*/
+}
+.selected:after{
+	display:block;
+	background-color:#F77;
+	position:absolute;
+	opacity:0.6;
+	width:100%;
+	height:100%;
+	content:" ";
+}
+
+#formView{
+	width:29%;
+	height:100%;
+	overflow: auto;
+	display:inline-block;
+}
+#formView form{
+	display:block;
+	width:69%;	
+	top:20px;
+	position: relative;
+	float:right;
+	font:normal 10px Arial;
+}
+#formView form section{
+	border-top:1px solid #999;
+	margin:10px 0;
+	padding: 10px 0;
+	background-color: #EFEFEF;
+}
+#formView form input{
+	border:1px solid #CCC;
+	margin-left:5px;
+}
+#formView form input[type=button]{
+	border:1px solid #FFF;
+	background-color: #DDD;
+}
+#formView form label{
+	display:block;
+	margin-top: 3px;
+	margin-left:5px;
+}
+#formView #elementPreviewContener{
+	top:20px;
+	position:relative;
+	border:1px solid #000;
+	border-radius:4px;
+	display:inline-block;
+	width:28%;
+	overflow:hidden;
+}
+#formView #elementsPreview{
+	position:relative;	
+}
+#menuBar{
+	position:fixed;
+	width:100%;
+	padding:10px 0 0 0;
+	margin: 0;
+	z-index: 1000;	
+	border:1px solid #000;
+	border-width:0 1px 1px;
+	border-radius:0 0 5px 5px;
+	background-color:#FFF;
+	-moz-transform:translate(0,-20px);
+	-webkit-transform:translate(0,-20px);
+	
+	-moz-transition:all 0.4s ease;
+	-webkit-transition:all 0.4s ease;
+}
+#menuBar:hover{
+	-moz-transform:translate(0);
+	-webkit-transform:translate(0);
+}
+#menuBar LI{
+	float:left;
+	list-style: none;
+	padding: 0;
+	margin: 0 10px;
+	cursor: pointer;
+	width:200px;
+}
+#menuBar LI:hover{
+	background-color:#DFE;
+}
+#menuBar LI UL{
+	display:none;
+	padding: 0;
+	margin: 0;
+	border:1px solid #000;
+	border-width:0 1px;
+	border-radius:0 0 5px 5px;	
+}
+#menuBar LI:hover UL{
+	display:block;
+}
+#menuBar LI UL LI{
+	width:180px;
+	float:none;
+	border-right:none;
+}
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-size:12px;
+}
+</style>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30865143-1']);
+  _gaq.push(['_setDomainName', 'cedricrey.fr']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+  <body>
+	<ul id="menuBar">
+		<li>
+			Edition 
+			<ul>
+				<li>
+					<a href="#" id="menuSaveAs">Enregistrer sous...</a>					
+				</li>
+				<li>
+					<a href="#" id="menuLoad">Charger...</a>					
+				</li>
+			</ul>
+		</li>
+		<li>
+			Preferences 
+			<ul>
+				<li>
+					<label for="grid">Grille :</label><input type="checkbox" id="grid" checked="true"/>
+				</li>
+				<li>
+					<label for="gridStep">Pas de grille :</label><input type="text" id="gridStep" value="16" />
+				</li>
+				<li></li>
+			</ul>
+		</li>
+		<li>
+			Level and WarpZone :<br/><ul>
+				<li>
+					
+					<select id="zoneSelect">
+						<option value="level">Level principal</option>
+						<option value="addZone">++ Ajouter une zone ++</option>				
+					</select>
+				</li>
+			</ul>
+		</li>
+		<li></li>
+	</ul>
+	<div id="boardView">
+		<div id="levelBoard">
+			itsme
+		</div>
+	</div>	
+	<div id="formView">
+		
+		<div id="elementPreviewContener">
+			<select name="typeOfObject" class="typeOfObject">
+				<option value="items">Item</option>
+				<option value="enemies">Enemie</option>
+				<option value="blocks">Block</option>
+				<option value="decorations">Decoration</option>				
+			</select>
+			<div id="elementsPreview">
+				
+			</div>
+		</div>
+		
+		<form id="levelForm">
+			<label for="levelWidth">Largeur : </label><input type="text" id="levelWidth"/>
+			<label for="levelHeight">Hauteur : </label><input type="text" id="levelHeight"/>			
+			<label for="levelBg">Background ? </label>
+				<select name="levelBg" id="levelBg">
+					<option value="">Choisir</option>
+					<option value="bg1.png">Background 1</option>
+					<option value="bg_warp1.png">Background WarpZone 1</option>
+				</select>
+			<input type="button" value="Copier dans le presse papier" id="copyToClipboardButton"/>
+			<input type="button" value="Tester en live" id="liveTestButton"/>
+			<section>
+				<h2>Nouvel element :</h2>
+				<label for="typeOfObject">Type</label><select name="typeOfObject" id="typeOfObject" class="typeOfObject">
+					<option value="items">Item</option>
+					<option value="enemies">Enemie</option>
+					<option value="blocks">Block</option>
+					<option value="decorations">Decoration</option>
+				</select>
+				<select name="" id="newObjectClass">
+					
+				</select>
+				<input type="button" id="addElementBtn" value="ajouter"/>
+			</section>
+			<h2>Proprieté de l'élément :</h2>
+			<input type="button" class="deleteElement" value="supprimer"/>
+			<section id="elementPropsForm">
+				<label for="speed">Vitesse</label>
+				<input id="speed" type="text"/>
+			</section>			
+			<input type="button" class="addNewField" value="ajouter un champ"/>
+			<input type="button" class="deleteElement" value="supprimer"/>			
+		</form>
+	</div>
+
+
+<script type="text/javascript">
+
+	var grid = true;
+	var gridStep = 4;
+	$('#grid').bind("change click",function(){
+		console.log("grid change")
+		grid=$('#grid').attr("checked")
+		});
+	grid=$('#grid').attr("checked");
+	
+	$('#gridStep').bind("change blur",function(){
+		console.log("gridStep change")
+		gridStep=parseInt($('#gridStep').val()) || 1;
+		});
+	gridStep= parseInt($('#gridStep').val()) || 1;
+	
+	function nearestGridStep(num){
+		num1 = parseInt(num/gridStep)*gridStep;
+		num2 = (parseInt(num/gridStep)+1)*(gridStep);
+		//return num-num1 > num2-num ? num2 : num1;
+		return num1
+	}
+	
+	
+	$('#levelWidth').val($('#levelBoard').width());
+	$('#levelWidth').bind("change",function(){
+		$('#levelBoard').width(parseInt(this.value));
+		currentZone.width = parseInt(this.value);
+		});
+	
+	$('#levelHeight').val($('#levelBoard').height());
+	$('#levelHeight').bind("change",function(){
+		$('#levelBoard').height(parseInt(this.value));
+		/*Calcul de tous les bottom*/
+		ce =  currentElement;
+		$.each(currentZone.blocks,function(){this.refreshPosition()});
+		$.each(currentZone.items,function(){this.refreshPosition()});
+		$.each(currentZone.enemies,function(){this.refreshPosition()});
+		$.each(currentZone.decorations,function(){this.refreshPosition()});
+		setCurrentElement(ce);
+		currentZone.height = parseInt(this.value);
+		});
+	
+	
+	$('#levelBg').bind("change",function(){
+		$('#levelBoard').css("backgroundImage","url(images/bg/"+this.value+")");
+		currentZone.bg = this.value;
+		});
+	
+	level = {
+		enemies : {},
+		items : {},
+		blocks : {},
+		decorations : {},
+		warpZone : {},
+	}
+	currentZone = level;
+	
+	standardELement = {
+	startX : 0,
+	x : null,	
+	y : null,
+	z : 100,
+	className : "",	
+	classSup : "",
+	dir : "Bwd",
+	id : null,
+	isStatic : false,
+	holdable : false,
+	speed : 1,
+	jumpHeight : 20,
+	jumpLength : 1,
+	fallingSpeed : 5,
+	editor_resizable : false,
+	}
+	
+	
+	elementsType = {
+		items : {
+			"koopaShell":{
+			isStatic:true,
+			holdable:true,
+			},
+			"mushroom":{
+				holdable:false,
+			},
+			"flower":{
+				isStatic:true,
+				holdable:false,
+			},
+			"leaf":{
+				holdable:false,
+			},
+			"coin":{
+				isStatic:true,
+				holdable:false,		
+			}
+		},
+		enemies : {			
+			"goomba":{
+			},		
+			"koopa":{
+				speed:0.5,
+			},
+			"flyingKoopa":{
+				speed:0.7,
+				wavePos : 0	,
+			},
+			"koopaShell":{
+				speed:4,
+				enemieKiller:true,		
+				jumpHeight:5,
+				jumpLength:0.2,
+				fallingSpeed:10,
+				brickBreaker:true
+			},
+			"piranhaPlant":{
+				
+			},
+			"flowerFire":{
+				speed:4,
+				enemieKiller:true,		
+				jumpHeight:10,
+				jumpLength:0.3,
+				fallingSpeed:5,
+				inoffensive:true,
+				invincible:true,
+			}
+		},
+		blocks : {
+			"tuyau" : {wayToWarp:'',wayToWarpDir:'',wayToWarpX:'',wayToWarpY:''},
+			"bonusMushroom" : {},
+			"brickBlock" : {},
+			"emptyBlock" : {isGroup:false},
+			"woodBlock" : {isGroup:false},
+			"cloudBlock" : {onlySupport:true,isGroup:false},
+			"verticalTube" : {editor_resizable : true},
+			"hTube" : {editor_resizable : true},
+			"hTubeEnd" : {editor_resizable : false},
+			"ground" : {editor_resizable : true},
+			"orangePanel1":{onlySupport:true,editor_resizable:true,z:94},
+			"bluePanel1":{onlySupport:true,editor_resizable:true,z:93},
+			"greenPanel1":{onlySupport:true,editor_resizable:true,z:95},
+			"greyPanel1":{onlySupport:true,editor_resizable:true,z:93},
+			"grass":{isGroup:true},
+			"grassGround":{editor_resizable : true},
+			"grassGroundHigh":{editor_resizable : true,isGroup:false},
+			"grassIncline45":{inclined:true,fx:supInclined},
+			"grassInclineN45":{inclined:true,fx:supInclined,inclineFact:-1},
+			"grassIncline22":{inclined:true,fx:supInclined,inclineFact:0.5,editor_resizable : true},
+			"grassInclineN22":{inclined:true,fx:supInclined,inclineFact:-0.5,editor_resizable : true},
+			"grassBlock":{editor_resizable : true}
+		},
+		decorations : {
+		}
+	}
+	//$.extend(elementsType.blocks,blocksProps);
+	$.each(elementsType.blocks,function(key,val){
+		if(blocksProps[key])
+			$.extend(this,blocksProps[key]);
+	})
+	$.extend(elementsType.enemies,enemiesProps);
+	$.extend(elementsType.items,itemsProps);
+	$.extend(elementsType.decorations,decoProps);
+	
+	function populateClassNameSelect(){
+		type = $('#typeOfObject').val();
+		$('#newObjectClass').empty();
+		$('#elementsPreview').empty();
+		currTop = 0;
+		$.each(elementsType[type],function(key,val){
+			$('#newObjectClass').append($("<option val='"+key+"'>"+key+"</option>"));
+			currPrev = $('<div class="'+key+'"></div>').css({
+										position:"absolute",
+										top:currTop+"px"})
+			$('#elementsPreview').append(currPrev);
+			if(currPrev.height() < 1)
+				currPrev.height(30)
+			if(currPrev.width() < 1)
+				currPrev.width(20)
+			currPrev.click(function(){$('#newObjectClass').val(key).trigger("change")});
+			currTop += currPrev.height() + 3;
+		});
+		$('#elementsPreview').height(currTop);
+	}
+	/*$('#typeOfObject').change(populateClassNameSelect);*/
+	populateClassNameSelect();
+	$('.typeOfObject').change(function(){
+		$('.typeOfObject').val($(this).val());
+		populateClassNameSelect();
+		});
+	
+	$('#boardView').append($('<div id="cursorPreview"></div>').css({position:"absolute"}));
+	$('#boardView').bind("mousemove",function(e){
+		if(grid)
+			{
+				nextX = nearestGridStep(e.clientX);
+				nextY = nearestGridStep($('#levelBoard').height() - $('#boardView').scrollTop() - e.clientY);
+			}
+		else
+			{
+				nextX = e.clientX;
+				nextY = $('#levelBoard').height() - $('#boardView').scrollTop() - e.clientY;
+			}
+		$('#cursorPreview').css({left:nextX+"px",top:($('#levelBoard').height() - $('#boardView').scrollTop() - nextY - $('#cursorPreview').height())+"px"});
+		if(e.target == $('#levelBoard')[0] || e.target == $('#cursorPreview')[0])
+			$('#cursorPreview').show();
+		else
+			$('#cursorPreview').hide();
+	})	
+	$('#newObjectClass').change(function(){
+		$('#cursorPreview').removeClass();
+		className = $('#newObjectClass').val();
+		$('#cursorPreview').addClass(className);
+		h = $('#elementsPreview .'+className).height();
+		w = $('#elementsPreview .'+className).width();
+		$('#cursorPreview').css({height:h+"px",width:w+"px"});
+	})
+	
+	elementCompteur = 1;	
+	function addNewElement(options){
+		type = $('#typeOfObject').val();
+		className = $('#newObjectClass').val();
+		currX = $('#levelBoard').scrollLeft() + $('#boardView').width()/2;
+		currY = $('#levelBoard').height() - $('#boardView').scrollTop() - $('#boardView').height()/2;
+		if(options && options.x)
+			currX = options.x;
+		if(options && options.y)
+			currY = options.y;
+		
+		if(grid)
+			{
+				currY = nearestGridStep(currY);
+				currX = nearestGridStep(currX);
+			}
+		newElement = new Element({x:currX,y:currY,type:type,className:className,id:className+"_"+elementCompteur});
+		newElement.activate();		
+		currentZone[type][className+"_"+elementCompteur] = newElement;
+		node = 	newElement.node;
+		border = {top:parseInt(node.css('border-top-width')),
+					right:parseInt(node.css('border-right-width')),
+					bottom:parseInt(node.css('border-bottom-width')),
+					left:parseInt(node.css('border-left-width'))};		
+		if(node.height() < 1)
+			{
+			node.height(32);
+			newElement.h = 32-border.top-boder.bottom;
+			}
+		if(node.width() < 1)
+			{
+			node.width(32);
+			newElement.w = 32-border.right-boder.left;
+			}
+		setCurrentElement(newElement);
+		elementCompteur++;
+	}
+	$('.deleteElement').click(function(){
+		if(currentElement)
+		{
+			delete currentZone[currentElement.type][currentElement.id];
+			currentElement.node.remove();
+			setCurrentElement(null);
+		}
+		
+	})
+	$('#levelBoard, #cursorPreview').mousedown(mouseDownAddElement);
+	function mouseDownAddElement(e){
+		if(e.which==1 && (e.target == $('#levelBoard')[0] || e.target == $('#cursorPreview')[0]))
+		{			
+			boardMouseDown(e);
+			$('#levelBoard, #cursorPreview').bind("mousemove",boardMouseDown);
+			$('#levelBoard, #cursorPreview').mouseup(function(){
+				$('#levelBoard, #cursorPreview').unbind("mousemove",boardMouseDown);
+				});
+		}
+	}
+	
+	function boardMouseDown(e){
+		curX = e.clientX + $('#boardView').scrollLeft();
+		curY = $('#levelBoard').height()-e.clientY-$('#boardView').scrollTop();
+		if((e.target == $('#levelBoard')[0] || e.target == $('#cursorPreview')[0]) && e.type == "mousedown")
+			addNewElement({x:curX,y:curY});
+		else if(e.type == "mousemove" && currentElement
+			&& (curX+currentElement.w < currentElement.x 
+				|| currentElement.x+currentElement.w < curX
+				|| curY+currentElement.h < currentElement.y 
+				|| currentElement.y+currentElement.h < curY))
+			addNewElement({x:curX,y:curY});
+	}	
+	$('#addElementBtn').click(addNewElement);
+	
+	$(document).bind("keydown",function(e){
+		//console.log(e);
+		move = 1;
+		if(grid)
+			move=gridStep;
+		if(e.shiftKey)
+			move *= 10;
+			switch(e.keyCode)
+			{
+			case 37:
+				if(currentElement && e.target == document.body){
+					currentElement.x-=move;
+					if(grid)
+						this.x = nearestGridStep(this.x);
+					currentElement.node.css("left",currentElement.x+"px");
+					setCurrentElement(currentElement);
+					e.preventDefault();
+					}
+			break;
+			case 39:
+				if(currentElement && e.target == document.body){
+					currentElement.x+=move;
+					if(grid)
+						this.x = nearestGridStep(this.x);
+					currentElement.node.css("left",currentElement.x+"px");
+					setCurrentElement(currentElement);
+					e.preventDefault();
+					}
+			break;
+			case 38:
+				if(currentElement && e.target == document.body){
+					currentElement.y+=move;
+					if(grid)
+						this.y = nearestGridStep(this.y);
+					currentElement.node.css("top",($('#levelBoard').height()-currentElement.y-currentElement.h)+"px");
+					setCurrentElement(currentElement);
+					e.preventDefault();
+					}
+			break;
+			case 40:
+				if(currentElement && e.target == document.body){
+					currentElement.y-=move;
+					if(grid)
+						this.y = nearestGridStep(this.y);
+					currentElement.node.css("top",($('#levelBoard').height()-currentElement.y-currentElement.h)+"px");
+					setCurrentElement(currentElement);
+					e.preventDefault();
+					}
+			break;
+			case 27:
+				setCurrentElement(null);				
+			break;
+			case 46:
+				if(currentElement && e.target == document.body){
+					$('.deleteElement').trigger("click");
+					e.preventDefault();
+					}
+			break;
+			case 71:
+				if(e.ctrlKey)
+					{
+					$('#grid').trigger("click");
+					e.preventDefault();
+					}
+			break;
+			
+			}
+	})
+	
+	currentElement = null;
+	function setCurrentElement(element){
+		if(currentElement)
+			currentElement.node.removeClass("selected");
+		currentElement = element;
+		if(!element)
+			return false;
+		currentElement.node.addClass("selected");
+		$('#elementPropsForm').empty();
+		if(element)
+			$.each(element,function(key,val){
+				/*$("#"+key).val(val);*/
+				if(typeof val != "function" && key != "node" && key.indexOf("editor_") != 0)
+				{
+					lab = $("<label for='"+key+"'>"+key+"</label>");
+					type = "text";
+					if(typeof val == "boolean")
+						type = "checkbox"
+					inp = $("<input type='"+type+"' id='"+key+"' value='"+val+"'>").change(setValue);
+					if(val == true)
+						inp.attr('checked',"checked");
+					$('#elementPropsForm').append(lab).append(inp).append("<br/>");
+					
+				}
+			});
+	}
+	function setValue(event){
+		console.log(event.target);
+		if(event.target.id == 'className')
+			{
+				oldClass = currentElement[event.target.id];
+				newClass = event.target.value;
+				if(currentElement.isGroup)
+				{
+					
+				$("."+oldClass,currentElement.node).addClass(newClass).removeClass(oldClass);
+					oldClass = "grp_"+oldClass;
+					newClass = "grp_"+newClass;
+				}
+				currentElement.node.removeClass(oldClass);
+				currentElement.node.addClass(newClass);
+			}
+		if(event.target.id == 'classSup')
+			{
+				oldClass = currentElement[event.target.id];
+				newClass = event.target.value;
+				currentElement.node.removeClass(oldClass);
+				currentElement.node.addClass(newClass);
+			}
+		
+		if(event.target.type == "checkbox")
+			currentElement[event.target.id] = event.target.checked;
+		else if(event.target.value == parseInt(event.target.value).toString())
+			currentElement[event.target.id] = parseInt(event.target.value);
+		else
+			currentElement[event.target.id] = event.target.value;
+		
+		if(event.target.id == 'h')
+			currentElement.node.height(currentElement.h)
+		if(event.target.id == 'w')
+			currentElement.node.width(currentElement.w)
+		if(event.target.id == 'z')
+			currentElement.node.css("z-index",currentElement.z)
+		if(event.target.id == 'isGroup' && currentElement.isGroup)
+			currentElement.node.resizable({resize:$.proxy(currentElement.resize,currentElement)});
+		if(currentElement.isGroup && (event.target.id == 'h' || event.target.id == 'w'))
+			{
+			$('.'+this.className,this.node).remove();
+			tmpNode = getGroupNode(this.className,this.w,this.h);
+			this.node.append(tmpNode.html());
+			}
+		
+	}
+	function addNewField(name,option){
+		lab = $("<label for='"+name+"'>"+name+"</label>");
+		type = "text";
+		if(option && option.type && option.type == "boolean")
+			type = "checkbox"
+		inp = $("<input type='"+type+"' id='"+name+"' value=''>").change(setValue);
+		$('#elementPropsForm').append(lab).append(inp).append("<br/>");
+	}
+	$('.addNewField').click(function(){
+		fieldName = prompt("Nom de ce champ?","");
+		if(typeof currentElement[fieldName] == "undefined")
+			addNewField(fieldName)
+		else
+			{
+				alert("ce champs existe déjà")
+				$("input#"+fieldName).focus();
+			}
+			
+	})
+	/*$('#elementPropsForm input')*/
+	Element = function(options){
+		$.extend(this,standardELement);	
+		if(options.type && options.className)
+			{
+				this.type = options.type;
+				if(elementsType[options.type][options.className])
+					$.extend(this,elementsType[options.type][options.className]);
+			}
+		$.extend(this,options);
+		
+		this.activate = standardActivate;
+		
+		this.resize = function(e,ui){
+			border = {top:parseInt(this.node.css('border-top-width')),
+						right:parseInt(this.node.css('border-right-width')),
+						bottom:parseInt(this.node.css('border-bottom-width')),
+						left:parseInt(this.node.css('border-left-width'))};
+			this.h = this.node.height()+border.top+border.bottom;
+			this.w = this.node.width()+border.right+border.left;
+			if(grid)
+			{
+				this.h = nearestGridStep(this.h);
+				this.w = nearestGridStep(this.w);
+				this.node.height(this.h-border.top-border.bottom);
+				this.node.width(this.w-border.right-border.left);
+			}
+			if(this.isGroup)
+				{
+				$('.'+this.className,this.node).remove();
+				tmpNode = getGroupNode(this.className,this.w,this.h);
+				this.node.append(tmpNode.html());
+				/*
+				this.node.html(tmpNode.html())
+				this.node.draggable({stop:$.proxy(this.move,this)}).resizable({stop:$.proxy(this.resize,this)});
+				*/
+				}
+			setCurrentElement(this)
+		}
+		this.refreshPosition = function(){
+			this.node.css("top",($('#levelBoard').height() - this.y - this.h) +  "px");
+			this.node.css("left",this.x + "px");
+		}
+		this.move = function(e,ui){
+			this.y = $('#levelBoard').height() - parseInt(this.node.css("top")) - this.h;
+			this.x = parseInt(this.node.css("left"));
+			if(grid)
+			{
+				this.y = nearestGridStep(this.y);
+				this.x = nearestGridStep(this.x);
+				this.node.css("top",($('#levelBoard').height() - this.y  - this.h)+"px");
+				this.node.css("left",this.x+"px");
+			}
+			setCurrentElement(this)
+		}
+		//this.activate();
+	}
+	function standardActivate(){
+		
+		if(this.isGroup)
+			this.node = getGroupNode(this.className,this.w,this.h)
+		else
+			this.node = $('<div class="'+this.className+'"></div>')
+			
+		this.node.draggable({stop:$.proxy(this.move,this)})
+		.click($.proxy(function(){setCurrentElement(this)},this));
+		if(this.editor_resizable || this.isGroup)
+			this.node.resizable({resize:$.proxy(this.resize,this)});
+		$('#levelBoard').append(this.node);		
+		border = {top:parseInt(this.node.css('border-top-width')),
+					right:parseInt(this.node.css('border-right-width')),
+					bottom:parseInt(this.node.css('border-bottom-width')),
+					left:parseInt(this.node.css('border-left-width'))};
+		if(this.h)
+			this.node.css("height",(this.h-border.top-border.bottom)+"px");	
+		else
+			this.h = parseInt(this.node.css("height"))+border.top+border.bottom;
+		if(this.w)
+			this.node.css("width",(this.w-border.right-border.left)+"px");	
+		else
+			this.w = parseInt(this.node.css("width"))+border.right+border.left;
+			
+		this.node.css({
+				position:"absolute",
+				//bottom:this.y+"px",
+				top:($('#levelBoard').height()-this.y-this.h)+"px",
+				left:this.x+"px",
+				"z-index":this.z});
+		if(this.classSup)
+			this.node.addClass(this.classSup);
+	}
+	function getGroupNode(className,w,h){	
+		testNode = $('<div class="'+className+'"></div>');
+		$('#levelBoard').append(testNode);
+		elW = testNode.width();
+		elH = testNode.height();
+		testNode.remove();
+		newNode = $('<div class="grp_'+className+'"></div>');
+		newNode.height(w);
+		newNode.width(h);
+		for(i=0;i<h;i+=elH)
+			for(j=0;j<w;j+=elW)
+				{
+					el = $('<div class="'+className+'"></div>');
+					el.height(elH);
+					el.width(elW);
+					el.css("float","left");
+					newNode.append(el);
+				}
+		return newNode;
+	}
+	
+	function getObjectString(object){
+		returned = " { ";
+		$.each(object,function(key,val){
+			if(typeof val != "function" && key != "node" && key.indexOf("editor_") != 0)
+				{
+				returned += " " + key +" : ";
+				if(typeof val == "object")
+					returned += getObjectString(val);
+				else if(typeof val == "string")
+					returned += "'"+val.toString()+"'";
+				else
+					returned += val;
+				returned+=",\n"
+				}
+		});
+		returned = returned.substr(0,returned.length-1);
+		returned += " } ";
+		return returned
+	}
+	
+	function levelToString(currLevel){
+		returned = " { items: { ";
+		$.each(currLevel.items,function(key,val){
+			if(val)
+			{
+				returned += "\n\t " + key +" : new Item("+val.x+",'"+val.className+"',{";
+				currentClassName = val.className;
+					$.each(val,function(key,val){
+						if(typeof val != "function" && key != "node" && key != "className" && key != "startX" && key.indexOf("editor_") != 0 && val != standardELement[key])
+						{						
+							returned += " \t\t" + key +" : ";
+							if(typeof val == "string")
+								returned += "'"+val.toString()+"'";
+							else
+								returned += val;
+							returned+=","
+						}
+					});
+				returned = returned.substr(0,returned.length-1);
+				returned +="}),";
+			}
+		
+		});
+		returned = returned.substr(0,returned.length-1);	
+		returned += " }, ";
+		
+		
+		returned += " \nenemies: { ";
+		$.each(currLevel.enemies,function(key,val){			
+			if(val)
+			{
+			returned += "\n\t " + key +" : new Enemie("+val.x+",'"+val.className+"',{";
+			currentClassName = val.className;
+				$.each(val,function(key,val){
+					if(typeof val != "function" && key != "node" && key != "className" && key != "startX" && key.indexOf("editor_") != 0 && val != standardELement[key])
+					{						
+						returned += " \t\t" + key +" : ";
+						if(typeof val == "string")
+							returned += "'"+val.toString()+"'";
+						else
+							returned += val;
+						returned+=","
+					}
+				});
+			returned = returned.substr(0,returned.length-1);
+			returned +="}),\n";
+			}
+		});
+		returned = returned.substr(0,returned.length-1);	
+		returned += " }, ";
+		
+		returned += " \nblocks: { ";
+		$.each(currLevel.blocks,function(key,val){			
+			if(val)
+			{
+			returned += "\n\t " + key +" : new Block({";
+			currentClassName = val.className;
+				$.each(val,function(key,val){
+					if(typeof val != "function" && key != "node" && key.indexOf("editor_") != 0 && val != standardELement[key])
+					{						
+						returned += " \t\t" + key +" : ";
+						if(typeof val == "string")
+							returned += "'"+val.toString()+"'";
+						else
+							returned += val;
+						returned+=","
+					}
+				});
+			returned = returned.substr(0,returned.length-1);
+			returned +="}),";
+			}
+		});
+		returned = returned.substr(0,returned.length-1);
+		returned += " }, ";
+		
+		returned += " \ndecorations: { ";
+		$.each(currLevel.decorations,function(key,val){			
+			if(val)
+			{
+			returned += "\n\t " + key +" : new Decoration({";
+			currentClassName = val.className;
+				$.each(val,function(key,val){
+					if(typeof val != "function" && key != "node" && key.indexOf("editor_") != 0 && val != standardELement[key])
+					{						
+						returned += " \t\t" + key +" : ";
+						if(typeof val == "string")
+							returned += "'"+val.toString()+"'";
+						else
+							returned += val;
+						returned+=","
+					}
+				});
+			returned = returned.substr(0,returned.length-1);
+			returned +="}),";
+			}
+		});
+		returned = returned.substr(0,returned.length-1);
+		returned += " }, ";
+		
+		if(currLevel.warpZone)
+		{
+			returned += " \nwarpZone: { ";
+			$.each(currLevel.warpZone,function(key,val){			
+				if(val)
+				{
+				returned += "\n\t " + key +" : ";
+				returned += levelToString(val)
+				returned +=",";
+				}
+			});
+			returned = returned.substr(0,returned.length-1);
+			returned += " }, ";
+		}
+		
+		returned += "bg:'"+currLevel.bg+"',";
+		returned += "height:"+currLevel.height+",";
+		returned += "width:"+currLevel.width+"";
+		
+		returned += " } ";
+		
+		
+		return returned;
+	}
+	
+	function stringToLevel(s){
+		s = decodeURI(s);
+		//console.log(s);
+		eval("level="+s);
+		if(level.width)
+			{
+				$('#levelWidth').val(level.width);
+				$('#levelBoard').width(level.width);
+			}
+		if(level.height)
+			{
+				$('#levelHeight').val(level.height);
+				$('#levelBoard').height(level.height);
+			}
+		if(!level.enemies)
+			level.enemies = {};
+		if(!level.items)
+			level.items = {};
+		if(!level.blocks)
+			level.blocks = {};
+		if(!level.decorations)
+			level.decorations = {};
+		if(!level.warpZone)
+			level.warpZone = {};
+		//console.log(level);
+			numMatch = /[0-9]+/;
+		$.each($.extend({},level.enemies,level.items,level.blocks,level.decorations),function(key,val){
+			currCpt = parseInt(key.substr(key.lastIndexOf("_")+1).match(numMatch));
+			if(elementCompteur<currCpt)
+				elementCompteur = currCpt;
+		})
+		elementCompteur++;
+		
+		activateZone(level);
+		$.each(level.warpZone,function(key,val){
+			newOption = $('<option>'+key+'</option>');
+			newOption.attr("value",key);
+			$('#zoneSelect').append(newOption)			
+		});
+		
+	}
+	function activateZone(zone){
+		$('#levelBoard').empty();
+		currentZone = zone;		
+		if(zone.width)
+			{
+			$('#levelBoard').width(zone.width);
+			$('#levelWidth').val(zone.width);
+			}
+		if(zone.height)
+			{
+			$('#levelBoard').height(zone.height);
+			$('#levelHeight').val(zone.height);
+			}		
+		$.each(zone.items,function(key,val){
+			this.activate();
+		});
+		$.each(zone.enemies,function(key,val){
+			this.activate();
+		});
+		$.each(zone.blocks,function(key,val){
+			this.activate();
+		});
+		$.each(zone.decorations,function(key,val){
+			this.activate();
+		});
+		if(zone.bg)
+			{
+				$('#levelBg').val(zone.bg);
+				$('#levelBoard').css("background-image","url(images/bg/"+zone.bg+")");				
+			}
+	}
+	if(window.location.search.indexOf("loadLevel=") != -1)
+		{
+			params = window.location.search.split("?")[1].split("&");
+			levelName = "";
+			levelString = null;
+			$.each(params,function(key,val){
+				if(val.indexOf("loadLevel=")==0)
+					levelName = val.substr(val.indexOf("=")+1);
+			});
+			if(levelName != "")
+				levelString = localStorage.getItem(levelName);
+			if(!levelString)
+				levelString = localStorage.getItem('testLevel');			
+			stringToLevel(levelString);
+			
+		}
+	
+	function openLevelString(){
+		window.open("data:"+levelToString())
+	}
+	
+	function copyToClipboard(s)
+	{
+		if( window.clipboardData && clipboardData.setData )
+		{
+			clipboardData.setData("Text", s);
+		}
+		else if(typeof netscape != "undefined")
+		{
+			// You have to sign the code to enable this or allow the action in about:config by changing
+			//user_pref("signed.applets.codebase_principal_support", true);
+			netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
+	
+			var gClipboardHelper =
+		      Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+		      .getService(Components.interfaces.nsIClipboardHelper);
+		      
+		      gClipboardHelper.copyString(s);
+		}
+	else
+		{
+			txt = $('#levelCodeTextArea');
+			console.log(txt)
+			if(!txt.length)
+				{
+				txt = $('<textarea id="levelCodeTextArea"></textarea>').css({position:"absolute",left:0,top:0,width:"80%",height:"200px"});
+				$(document.body).append(txt);
+				}
+			txt.show();
+			txt.text(s)
+			txt.select();
+			//alert("COPY THIS TEXT (CTRL+C)");
+			txt.focus();
+			txt.bind("copy",function(){
+				setTimeout(function(){
+					$('#levelCodeTextArea').hide()
+					},100);
+				});
+			/*
+			var oRange = txt[0].createTextRange()
+			oRange.execCommand('Copy');
+			*/
+			//$(document).trigger("oncopy");
+		}
+	}
+	$('#copyToClipboardButton').click(function(){copyToClipboard(levelToString(level))});
+	
+	function liveTest(){
+		localStorage.setItem('testLevel', levelToString(level));
+		window.open("index.html?testlevel=true");
+	}
+	$('#liveTestButton').click(function(){liveTest()});
+	/*
+	function standarExistingElement(){
+		this.createNode = standardActivate;
+	}*/
+	
+	function Item(startX,className,options){
+		/*
+	$.extend(this,new standarExistingElement());
+	$.extend(this,standardELement);	
+	this.type = "items";
+	if(className)
+		{
+			if(elementsType.items[className])
+				$.extend(this,elementsType.items[className]);
+		}
+	this.startX = startX;
+	this.className = className;
+	if(options)
+		$.extend(this,options);*/
+		nOptions = {};
+		if(itemsProps[options.className])
+			$.extend(nOptions,itemsProps[options.className]);
+		$.extend(nOptions,options);
+		return new Element($.extend({startX:startX,className:className,type:'items'},nOptions));
+	}
+	function Enemie(startX,className,options){
+		/*
+	$.extend(this,new standarExistingElement());
+	$.extend(this,standardELement);	
+	this.type = "enemies";
+	if(className)
+		{
+			if(elementsType.enemies[className])
+				$.extend(this,elementsType.enemies[className]);
+		}
+	this.startX = startX;
+	this.className = className;
+	if(options)
+		$.extend(this,options);*/
+		nOptions = {};
+		if(enemiesProps[options.className])
+			$.extend(nOptions,enemiesProps[options.className]);
+		$.extend(nOptions,options);
+		return new Element($.extend({startX:startX,className:className,type:'enemies'},nOptions));
+	}
+	function Block(options){
+	/*	
+	$.extend(this,new standarExistingElement());
+	$.extend(this,standardELement);	
+	this.type = "blocks";
+	if(options.className)
+		{
+			if(elementsType.blocks[options.className])
+				$.extend(this,elementsType.blocks[options.className]);
+		}
+	if(options)
+		$.extend(this,options);
+		*/
+		nOptions = {};
+		if(blocksProps[options.className])
+			$.extend(nOptions,blocksProps[options.className]);
+		$.extend(nOptions,options);
+		return new Element($.extend({type:'blocks'},nOptions));
+	}
+	function Decoration(options){
+		nOptions = {};
+		if(decoProps[options.className])
+			$.extend(nOptions,decoProps[options.className]);
+		$.extend(nOptions,options);
+		return new Element($.extend({type:'decorations'},nOptions));
+	}
+	
+	
+	
+	function addZone(){
+		name=prompt("Merci de donner un nom (pas d'espace ni accent)","");
+		if(name)
+			{
+				level.warpZone[name] = {
+					enemies : {},
+					items : {},
+					blocks : {},
+					decorations : {},
+				}				
+				newOption = $('<option>'+name+'</option>');
+				newOption.attr("value",name);
+				$('#zoneSelect').append(newOption)	
+			}
+		activateZone(level.warpZone[name]);
+	}
+	function changeZone(){
+		value = $('#zoneSelect').val();
+		if(value == "level")
+		 activateZone(level);
+		else if(value == "addZone")
+		 addZone();
+		else
+		 activateZone(level.warpZone[value]);
+		
+	}
+	
+	$('#zoneSelect').change(changeZone);
+	
+	function saveAs(){
+		name=prompt("Merci de donner un nom de niveau(pas d'espace ni accent)","");
+		if(name)
+			{
+				confirmation = true;
+				if(localStorage.getItem(name))
+					{
+						confirmation = confirm("Attention, un niveau avec ce nom est déjà enregistré. Confirmez?")
+					}
+				if(confirmation)					
+					localStorage.setItem(name, levelToString(level));
+			}
+	}
+	$('#menuSaveAs').click(saveAs);
+	
+	function displayLoadLevel(){
+		$ask = $('<div title="Charger un niveau"></div>');
+		$levelList = $('<select></select>');
+		allOptions = "";
+		$.each($(localStorage),function(key,val){
+		allOptions += "<option value='"+val+"'>"+val+"</option>";
+		});
+		$levelList.html(allOptions);
+		$ask.append($levelList);
+		$valid = $("<input type='button' value='Charger le niveau selectionné'/>");
+		$valid.click(function(){
+			document.location.href = document.location.pathname + "?loadLevel="+$levelList.val();
+			})
+		$ask.append($valid);
+		
+		$ask.append($('<br/><br/><br/>'));
+		
+		$levelText = $('<textarea></textarea>');
+		$ask.append($levelText);
+		$validText = $("<input type='button' value='Charger le niveau copié'/>");
+		$validText.click(function(){
+			localStorage.setItem("tmpLoadTxt", $levelText.val());
+			document.location.href = document.location.pathname + "?loadLevel=tmpLoadTxt";
+			})
+		$ask.append($validText);		
+		
+		
+		$ask.dialog();
+	}
+	$('#menuLoad').click(displayLoadLevel);
+</script>
+  </body>
+</html>
