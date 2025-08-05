@@ -14,7 +14,7 @@ var enemiesProps = {
 	},
 	"koopaShell":{
 		speed:4,
-		enemieKiller:true,
+		enemyKiller:true,
 		specialDie:koopaShellKilled,		
 		jumpHeight:5,
 		jumpLength:0.2,
@@ -28,7 +28,7 @@ var enemiesProps = {
 	},
 	"redkoopaShell":{
 		speed:4,
-		enemieKiller:true,
+		enemyKiller:true,
 		specialDie:koopaShellKilled,		
 		jumpHeight:5,
 		jumpLength:0.2,
@@ -37,7 +37,7 @@ var enemiesProps = {
 	},
 	"flowerFire":{
 		speed:4,
-		enemieKiller:true,
+		enemyKiller:true,
 		specialMove:flowerFireMove,		
 		jumpHeight:10,
 		jumpLength:0.3,
@@ -62,22 +62,22 @@ var enemiesProps = {
 		fx:function(x){return x}
 	}
 };
-function getEnemieAt(x,y,w,h,butMe){
-	enemie = null;
+function getEnemyAt(x,y,w,h,butMe){
+	enemy = null;
 	$.each(level.activeEnemies,function(key,val){
     if((x+w > this.x && x < this.x + this.w && y+h > this.y && y < this.y + this.h) && this != butMe)
-      enemie = this;
+      enemy = this;
 	});
-	return enemie;
+	return enemy;
 }
-function Enemie(startX,className,options){
+function Enemy(options){
 	this.options = options;
 	$.extend(this,standardObject());
 	this.options = options;
-	this.startX = startX;
+	this.startX = options.startX;
 	this.x = null;	
 	this.y = null;
-	this.className = className;
+	this.className = options.className;
 	this.dir = "Bwd";
 	this.node = null;
 	this.nowJumping = false;
@@ -85,12 +85,12 @@ function Enemie(startX,className,options){
 	this.id = null;
 	this.speed = 1;
 	this.wavePos = 0;
-	this.typeOfObject = "Enemie";
+	this.typeOfObject = "Enemy";
 	this.inoffensive = false;
 	this.jumpHeight = 20;
 	this.die = standarDie;
-	if(enemiesProps[className])
-		$.extend(this,enemiesProps[className]);
+	if(enemiesProps[this.className])
+		$.extend(this,enemiesProps[this.className]);
 	if(options)
 		$.extend(this,options);
 	$.extend(this.options,this);
@@ -100,7 +100,7 @@ function Enemie(startX,className,options){
 		support = getBlockAt(this.x,0,0,2000);
 		if(!this.y && support)
 			this.y = support.y + support.h;
-		this.node = $('<div class="'+this.className+' enemie"></div>').css({
+		this.node = $('<div class="'+this.className+' enemy"></div>').css({
 			position:"absolute",
 			bottom:this.y+"px",
 			left:this.x+"px",
@@ -159,23 +159,23 @@ function Enemie(startX,className,options){
 			avance = this.speed;
 		newX = this.x+ (avance * (now - this.lastTimeMove) / this.refreshTime);
 		this.lastTimeMove = now;
-		if(((b1 = getBlockAt(newX ,this.y,this.w,this.h))==null || (b1.onlySupport && b1.y+b1.h > this.y)) && (otherenemie = getEnemieAt(newX,this.y,this.w,this.h,this))==null)
+		if(((b1 = getBlockAt(newX ,this.y,this.w,this.h))==null || (b1.onlySupport && b1.y+b1.h > this.y)) && (otherenemy = getEnemyAt(newX,this.y,this.w,this.h,this))==null)
 			{
 			if(this.smartWalker && !getBlockAt(newX ,this.y-1,1,this.h))
 				this.changeDirection();
 			else
 				this.x = newX;
 			}
-		else if(otherenemie){
-			if(otherenemie.enemieKiller && !this.invincible)
+		else if(otherenemy){
+			if(otherenemy.enemyKiller && !this.invincible)
 				this.die();
-			else if(this.enemieKiller && !otherenemie.invincible)
-				otherenemie.die();
+			else if(this.enemyKiller && !otherenemy.invincible)
+				otherenemy.die();
 			else
 			{
 			this.changeDirection();
-			if(otherenemie.dir == this.dir)
-				otherenemie.changeDirection();
+			if(otherenemy.dir == this.dir)
+				otherenemy.changeDirection();
 			}
 		}
 		else if(b1.inclined)
@@ -238,7 +238,7 @@ function Enemie(startX,className,options){
 	this.ejected = function(){
 		this.node.addClass("ejected");
 		setTimeout($.proxy(function(){this.remove()},this.node),500);
-		deleteEnemie(this);
+		deleteEnemy(this);
 		delete level.activeEnemies[this.id];
 		clearInterval(this.interval);
 	}
@@ -335,14 +335,14 @@ function flowerFireMove(){
 		avance = this.speed;
 	newX = this.x+ (avance * (now - this.lastTimeMove) / this.refreshTime);
 	this.lastTimeMove = now;
-	if(!getBlockAt(newX ,this.y,this.w,this.h) && !getEnemieAt(newX ,this.y,this.w,this.h,this))
+	if(!getBlockAt(newX ,this.y,this.w,this.h) && !getEnemyAt(newX ,this.y,this.w,this.h,this))
 		{
 		this.x = newX;
 		}
 	else 
 	{
-		if((otherenemie = getEnemieAt(newX,this.y,this.w,this.h,this)) != null && !otherenemie.invincible)
-			otherenemie.die();
+		if((otherenemy = getEnemyAt(newX,this.y,this.w,this.h,this)) != null && !otherenemy.invincible)
+			otherenemy.die();
 		this.die();
 	}
 	if(newX > $mainScene.x + $sceneView.width() || newX < $mainScene.x)
@@ -404,7 +404,7 @@ function venusFireTrapMove(){
 				now = (new Date()).getTime();
 				currX = this.x+(this.w/2);
 				currY = this.y+this.h-10;
-				newFireBall = new Enemie(currX,"fireBall");
+				newFireBall = new Enemy({"startX" : currX, "className" : "fireBall"});
 				newFireBall.y = currY;
 				newFireBall.dir = currX<player.x ? "Fwd" : "Bwd";
 				newFireBall.id = "fireBall_"+now;
@@ -441,13 +441,13 @@ function flyingKoopaDie(){
 	var y = this.y;
 	this.node.remove();
 	clearInterval(this.interval);
-	newKoopa = new Enemie(x,"koopa");
+	newKoopa = new Enemy({"startX" : x, "className" :"koopa"});
 	newKoopa.y = y;
 	newKoopa.id = this.id;
 	level.activeEnemies[this.id] = newKoopa;
 	newKoopa.quicklyInoffensive();
 	newKoopa.activate();
-	deleteEnemie(this);
+	deleteEnemy(this);
 	delete this;
 }
 function koopaShellKilled(){
@@ -457,13 +457,13 @@ function koopaShellKilled(){
 	clearInterval(this.interval);
 	console.log("Kill : "+this.className)
 	className = this.className.indexOf("redkoopa") == 0 ? "redkoopaShell" : "koopaShell";
-	newKoopaItem = new Item(x,className);
+	newKoopaItem = new Item({"startX" : x, "className" : className});
 	newKoopaItem.y = y;
 	newKoopaItem.dir = this.dir;
 	newKoopaItem.id = this.id;
 	newKoopaItem.activate();
 	level.activeItems[newKoopaItem.id] = newKoopaItem;
-	deleteEnemie(level.activeEnemies[newKoopaItem.id]);
+	deleteEnemy(level.activeEnemies[newKoopaItem.id]);
 	delete level.activeEnemies[newKoopaItem.id];
 }
 function flowerFireDie(){
@@ -478,7 +478,7 @@ function standarDie(){
 		}
 	else
 		this.node.remove();
-	deleteEnemie(this);
+	deleteEnemy(this);
 	delete level.activeEnemies[this.id];
 	clearInterval(this.interval);
 }

@@ -138,7 +138,7 @@ function bonusMushroom(){
 		if(player.state == marioStates[0] && bonusType != "coin")
 			bonusType =  "mushroom";
 		className = bonusType;
-		item = new Item(this.x+(this.w/2)-4,className,{y:this.y+this.h,id:"bonus_"+this.id});
+		item = new Item({"startX" : this.x+(this.w/2)-4, "className" : className,y:this.y+this.h,id:"bonus_"+this.id});
 		level.activeItems["bonus_"+this.id] = item;
 		item.activate();		
 		item.x = this.x+this.h/2-item.h/2;

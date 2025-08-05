@@ -28,7 +28,7 @@ var itemsProps = {
 		isStatic:true,
 		holdable:false,
 	},
-	"endBlock":{touched:endBlockTouched,isStatic:true}
+	"endBlock":{touched:endBlockTouched,isStatic:true, w:24, h:24}
 };
 function getItemAt(x,y,w,h,butMe){
 	item = null;
@@ -38,14 +38,14 @@ function getItemAt(x,y,w,h,butMe){
 	});
 	return item;
 }
-function Item(startX,className,options){
+function Item(options){
 	this.options = options;
 	$.extend(this,standardObject());
 	this.options = options;
-	this.startX = startX;
+	this.startX = options.startX;
 	this.x = null;	
 	this.y = null;
-	this.className = className;
+	this.className = options.className;
 	this.dir = "Bwd";
 	this.node = null;
 	this.nowJumping = false;
@@ -56,8 +56,8 @@ function Item(startX,className,options){
 	this.speed = 1;
 	this.holder = null;
 	this.jumpHeight = 20;
-	if(itemsProps[className])
-		$.extend(this,itemsProps[className]);
+	if(itemsProps[this.className])
+		$.extend(this,itemsProps[this.className]);
 	if(options)
 		$.extend(this,options);
 	$.extend(this.options,this);
@@ -127,16 +127,16 @@ function Item(startX,className,options){
 			{
 			this.x = newX;
 			}
-		else if((otherenemie = getEnemieAt(this.x+avance,this.y,this.w,this.h,this)) != null){
-			if(otherenemie.enemieKiller)
+		else if((otherenemy = getEnemyAt(this.x+avance,this.y,this.w,this.h,this)) != null){
+			if(otherenemy.enemyKiller)
 				this.die();
-			else if(this.enemieKiller)
-				otherenemie.die();
+			else if(this.enemyKiller)
+				otherenemy.die();
 			else
 			{
 			this.changeDirection();
-			if(otherenemie.dir == this.dir)
-				otherenemie.changeDirection();
+			if(otherenemy.dir == this.dir)
+				otherenemy.changeDirection();
 				}
 		}
 		else
@@ -186,7 +186,7 @@ function touchedKoopaShellItem(isHeld){
 	newX = x+2;
 	/*if(this.holder && this.holder.acceleration)
 		newX+=this.holder.acceleration;*/
-	newKoopa = new Enemie(newX,this.className);
+	newKoopa = new Enemy({"startX" : newX, "className" : this.className});
 	newKoopa.y = y;
 	newKoopa.dir = this.dir;
 	newKoopa.id = this.id;

@@ -14,7 +14,7 @@ var bg1Ypos = 0;
 var bg2Ypos = 0;
 var itemHeld = null;
 var levelManagementInterval = null;
-var levelOldX = null;
+var levelOldX = null, levelOldY = null;
 
 var $body = $(".body");
 var $mainScene = null;
@@ -90,7 +90,11 @@ function initGame(){
 	$(window).bind("resize",refreshSceneViewSize);
 	player = new Mario();
 	
-	currentLevel = levels[1];
+	//currentLevel = levels[1];
+
+	currentLevel = function(){
+		return eval(" test = " + JSON.stringify(levels[1]));
+	}
 	if(window.location.search.indexOf("testlevel=true") != -1)
 		{
 			
@@ -180,6 +184,9 @@ function initLevel(currentLevel){
 		level.time = 300;
 	levelTimeInterval = setInterval(levelTime,1000);
 	player.activate();
+	//TODO : get Y checkpoint
+	if(level.startY)
+		player.y = level.startY;
 	
 }
 function initZone(zone){
@@ -187,6 +194,7 @@ function initZone(zone){
 	//$sceneView.scrollLeft(0);
 	$mainScene.css("left",0);
 	$mainScene.x = 0;
+	$mainScene.y = zone.h;
 	if(!zone.activeBlocks)
 		zone.activeBlocks = {};	
 	if(!zone.activeEnemies)
@@ -201,11 +209,13 @@ function initZone(zone){
 	$mainScene.w = $mainScene.width();	
 	
 	$.each($.extend({},zone.activeBlocks,zone.blocks),function(key,val){
-		//console.log(this)			
-		this.id = key;
-		if(this.activate)
-			this.activate();
-		zone.activeBlocks[key] = this;
+		//console.log(this)	
+		block = new Block(this);		
+		block.id = "block_" + key;
+
+		if(block.activate)
+			block.activate();
+		zone.activeBlocks[block.id] = block;
 		delete zone.blocks[key];
 		/*if(this.isGroup)
 		{		
@@ -233,9 +243,11 @@ function initZone(zone){
 		else
 			this.w = parseInt(this.node.css("width"));*/
 	});
-	$.each(zone.decorations,function(key,val){	
-		if(this.activate)
-			this.activate();
+	$.each(zone.decorations,function(key,val){
+		var deco =  new Decoration(this);
+		zone.decorations[key] = deco;
+		if(deco.activate)
+			deco.activate();
 		});
 	
 	if(zone.bg)
@@ -252,7 +264,7 @@ function initZone(zone){
 	if(zone == mainLevel)
 	{
 	if(!zone.endPoint)
-		zone.endPoint = {x:($mainScene.width() - $sceneView.width()/2),y:105};
+		zone.endPoint = {x:($mainScene.width() - $sceneView.width()/2),y:95};
 	createEndLevel();
 	}
 }
@@ -276,7 +288,8 @@ function standByZone(zone){
 	});
 }
 function levelManagement(){
-	if(levelOldX == $mainScene.x)
+	if(levelOldX == $mainScene.x
+		&& levelOldY == $mainScene.y)
 		return true;
 	/*
 	$.each($.extend({},level.enemies,level.items,level.blocks),function(key,val){
@@ -284,8 +297,8 @@ function levelManagement(){
     		this.startX = this.x;
     	if(val && this.startX < $sceneView.w+$mainScene.x && (!this.x || this.x+this.h > $mainScene.x))
       		{
-      			tab = this.constructor == Enemie ? level.enemies : this.constructor == Item ? level.items : level.blocks;
-      			activeTab = this.constructor == Enemie ? level.activeEnemies : this.constructor == Item ? level.activeItems : level.activeBlocks;
+      			tab = this.constructor == Enemy ? level.enemies : this.constructor == Item ? level.items : level.blocks;
+      			activeTab = this.constructor == Enemy ? level.activeEnemies : this.constructor == Item ? level.activeItems : level.activeBlocks;
       			
       			this.id = key;
       			if(this.activate)
@@ -297,8 +310,8 @@ function levelManagement(){
 	$.each($.extend({},level.activeEnemies,level.activeItems,level.activeBlocks),function(key,val){
     	if(val && this.x+this.h < $mainScene.x)
       		{
-      			tab = this.constructor == Enemie ? level.enemies : this.constructor == Item ? level.items : level.blocks;
-      			activeTab = this.constructor == Enemie ? level.activeEnemies : this.constructor == Item ? level.activeItems : level.activeBlocks;
+      			tab = this.constructor == Enemy ? level.enemies : this.constructor == Item ? level.items : level.blocks;
+      			activeTab = this.constructor == Enemy ? level.activeEnemies : this.constructor == Item ? level.activeItems : level.activeBlocks;
       			
       			this.id = key;
       			if(this.desactivate)      			
@@ -311,11 +324,14 @@ function levelManagement(){
 
 	//Enemies creation management
 	$.each(level.enemies,function(key,val){
-    	if(val && this.startX < $sceneView.w+$mainScene.x && (!this.x || this.x+this.w > $mainScene.x))
+    	if(val && this.startX < $sceneView.w+$mainScene.x && (!this.x || this.x+this.w > $mainScene.x)
+    		&& (!this.y || this.y+this.h > $mainScene.y)
+    		&& (!this.y || this.y < $mainScene.y +  $mainScene.h))
       		{
-      			this.id = key;
-      			this.activate();
-      			level.activeEnemies[key] = this;
+      			var enemy = new Enemy(this);
+      			enemy.id = "enemy_" + key;
+      			enemy.activate();
+      			level.activeEnemies[enemy.id] = enemy;
       			delete level.enemies[key];
       		}
 	});
@@ -332,15 +348,19 @@ function levelManagement(){
 	*/
 	//Items creation management
 	$.each(level.items,function(key,val){
-    	if(val && this.startX < $sceneView.w+$mainScene.x && (!this.x || this.x+this.w > $mainScene.x))
+    	if(val && this.startX < $sceneView.w+$mainScene.x && (!this.x || this.x+this.w > $mainScene.x)
+    		&& (!this.y || this.y+this.h > $mainScene.y)
+    		&& (!this.y || this.y < $mainScene.y +  $mainScene.h))
       		{
-      			this.id = key;
-      			this.activate();
-      			level.activeItems[key] = this;
+      			var item = new Item(this);
+      			item.id = "item_" + key;
+      			item.activate();
+      			level.activeItems[item.id] = item;
       			delete level.items[key]
       		}
 	});
 	levelOldX = $mainScene.x;
+	levelOldY = $mainScene.y;
 	/*	
 	$.each(level.activeItems,function(key,val){
     	if(val && this.x+this.w < $mainScene.x)
@@ -425,7 +445,7 @@ function createEndLevel(){
 	});
 	$mainScene.append(endZone);
 	
-	endBlock = new Item(level.endPoint.x-10,"endBlock",{x:level.endPoint.x-10,y:level.endPoint.y});
+	endBlock = new Item({ "startX" : level.endPoint.x-10, "className" : "endBlock",x:level.endPoint.x-10,y:level.endPoint.y});
 	endBlock.node = $('<div class="endBlock"></div>').css({
 			position:"absolute",
 			bottom:endBlock.y+"px",
@@ -441,9 +461,9 @@ function deleteItem(item){
 	for(var grid in aroundGrids)
 		delete aroundGrids[grid].items[item.id];
 }
-function deleteEnemie(enemie){
+function deleteEnemy(enemy){
 	for(var grid in aroundGrids)
-		delete aroundGrids[grid].enemies[enemie.id];
+		delete aroundGrids[grid].enemies[enemy.id];
 }
 
 function manageKeyPress(e){
@@ -593,14 +613,16 @@ function Mario(){
 		//scL = $sceneView.scrollLeft();
 		//if(this.orientation == "Bwd" && scL > this.x - $sceneView.w/2 +10)
 		sl = this.x - $sceneView.w/2 +10
+		st = this.y - $sceneView.h/2 +10
 		//$sceneView.scrollLeft(sl);
 		if(sl>0 && sl<$mainScene.w-$sceneView.w)	
 			{
 			$mainScene.css("left",-sl+"px");			
-			$mainScene.x = sl;
+			$mainScene.x = sl;	
 			}
+		$mainScene.y = st;
 		if($sceneBg && sl>0 && sl<$mainScene.w-$sceneView.w)
-			$sceneBg.css({backgroundPosition:sl/3+"px bottom"})
+			$sceneBg.css({backgroundPosition:sl/3+"px top"})
 		//else if(scL < this.x - $sceneView.w/2 -10)
 		//	$sceneView.scrollLeft(this.x - $sceneView.w/2 -10);
 		//$(window).scrollTop($mainScene.height()-this.y+ $(window).height()/2);
@@ -649,6 +671,8 @@ function Mario(){
 		newX = this.x+(this.speed*this.fastRunning*this.speedFactor*this.acceleration/20);		
 		if(newX < $mainScene.x)
 			newX=$mainScene.x;
+		if(newX + this.w > $mainScene.w && this.levelWon != true)
+			newX=$mainScene.w - this.w;
 		//if((block = getElementAt(this.elementsAround.blocks,newX,this.y,this.w,this.h))==null || block.onlySupport)
 		if((block = $.proxy(getBlockAt,this)(newX,this.y,this.w,this.h))==null || block.onlySupport)
 			this.x = newX;
@@ -691,7 +715,7 @@ function Mario(){
 			this.acceleration = 0;
 		this.lastTimeMove = now;
 		
-		this.manageEnemie()
+		this.manageEnemy()
 		if(item = getElementAt(this.elementsAround.items,this.x,this.y,this.w,this.h))
 			{
 				item.dir = this.orientation;
@@ -727,21 +751,21 @@ function Mario(){
 		
 	};
 	/*Return false if touched*/
-	this.manageEnemie = function(){	
-		currEnemie = getElementAt(this.elementsAround.enemies,this.x,this.y,this.w,this.h)
-		if(currEnemie != null && !currEnemie.inoffensive && !this.invincible)
+	this.manageEnemy = function(){	
+		currEnemy = getElementAt(this.elementsAround.enemies,this.x,this.y,this.w,this.h)
+		if(currEnemy != null && !currEnemy.inoffensive && !this.invincible)
 			{
-				console.log(currEnemie)
-				if(!getEnemieAt(this.x,this.y+this.fallingSpeed+1,this.w,this.h)
-					&& !currEnemie.notJumpale
-					&& !currEnemie.invicible)
+				console.log(currEnemy)
+				if(!getEnemyAt(this.x,this.y+this.fallingSpeed+1,this.w,this.h)
+					&& !currEnemy.notJumpale
+					&& !currEnemy.invicible)
 				{
-					console.log(currEnemie)
-					this.killEnemie(currEnemie);
+					console.log(currEnemy)
+					this.killEnemy(currEnemy);
 				}
 				else
 				{
-					this.enemieTouch();
+					this.enemyTouch();
 				}
 				/*
 				clearTimeout(this.jumpTimeout);
@@ -780,9 +804,9 @@ function Mario(){
 					this.y -= 1;
 					//this.node.css({bottom:parseInt($("#marioMove").css('bottom'))-1+"px"});
 					/*
-					if(!getElementAt(this.elementsAround.enemies,this.x,this.y,this.w,this.h) && (enemie = getElementAt(this.elementsAround.enemies,this.x,this.y-1,this.w,this.h)))
+					if(!getElementAt(this.elementsAround.enemies,this.x,this.y,this.w,this.h) && (enemy = getElementAt(this.elementsAround.enemies,this.x,this.y-1,this.w,this.h)))
 					{
-						this.killEnemie(enemie);
+						this.killEnemy(enemy);
 						/*
 						if(this.lastPressJump && (new Date()).getTime() - this.lastPressJump < 100)
 							{
@@ -792,9 +816,9 @@ function Mario(){
 					//}
 					*/
 					/*
-					if(this.manageEnemie())
+					if(this.manageEnemy())
 						{
-							console.log("enemie touched falling")
+							console.log("enemy touched falling")
 							this.nowFalling = false;
 							return true;
 						}
@@ -807,7 +831,7 @@ function Mario(){
 					break;
 				}
 	}
-	this.enemieTouch = function(){
+	this.enemyTouch = function(){
 		if(this.state == marioStates[0])
 			this.lose();
 		else
@@ -857,11 +881,11 @@ function Mario(){
 		else
 			GameOver();
 	};
-	this.killEnemie = function(enemie){
-		if(!enemie.invincible)
+	this.killEnemy = function(enemy){
+		if(!enemy.invincible)
 			{ 
-			console.log("kill :"+enemie);
-			enemie.isKilled();
+			console.log("kill :"+enemy);
+			enemy.isKilled();
 			this.wavePos = 0;
 			this.powerJump = 0.4;
 			if(this.lastPressJump && (new Date()).getTime() - this.lastPressJump < 100)
@@ -1052,7 +1076,7 @@ function Mario(){
 					this.node.removeClass("jump");
 					return this;
 	    		}
-	    	this.manageEnemie();
+	    	this.manageEnemy();
 			if(this.wavePos >= Math.PI/2)
 				{
 				this.nowFalling = true;
@@ -1255,10 +1279,12 @@ function Mario(){
 	this.fire = function(){
 		if(!this.unableToFire && this.fireBallNumber < this.maxFireBallNumber)
 		{
-			fireBall = new Enemie(this.x,"flowerFire",{y:this.y+this.h/2,dir:this.orientation,wavePos:Math.PI});
+			fireBall = new Enemy({ "startX" : this.x, "className" : "flowerFire", y:this.y+this.h/2,dir:this.orientation,wavePos:Math.PI});
 			fireBall.sender = this;
 			this.addActiveFireBall();
-			level.enemies["fireBall_"+(new Date()).getTime()] = fireBall;
+			level.activeEnemies["fireBall_"+(new Date()).getTime()] = fireBall;
+			fireBall.activate();
+			//level.enemies.push(fireBall);
 			this.unableToFire = true;
 			this.node.addClass("fire");
 			setTimeout($.proxy(function(){this.node.removeClass("fire");},this),200);
@@ -1363,6 +1389,7 @@ function Mario(){
 		this.stopJump();
 		this.fall();
 		this.acceleration = this.dir = 0;
+		this.levelWon = true;
 		//setTimeout($.proxy(this.runLeft,this),1000);	
 		this.winLevelInterval = setInterval($.proxy(function(){
 			if(!this.nowFalling)
@@ -1493,11 +1520,11 @@ function standardJump(){
 	    	oldY = this.y;
 	    	this.y = nextY;
 	    	this.lastTimeJump = now;	    	
-			if(!getEnemieAt(this.x,oldY,this.w,this.h) && (enemie = getEnemieAt(this.x,this.y-1,this.w,this.h)))
+			if(!getEnemyAt(this.x,oldY,this.w,this.h) && (enemy = getEnemyAt(this.x,this.y-1,this.w,this.h)))
 				{
 					if(this.typeOfObject == "Mario")
-						this.killEnemie(enemie);
-					if(this.typeOfObject == "Enemie")
+						this.killEnemy(enemy);
+					if(this.typeOfObject == "Enemy")
 						this.wavePos = 0;
 				}
 	    	}
@@ -1566,7 +1593,7 @@ function getElementsAt(list,x,y,w,h,options){
 	if(options && options.butMe)
 		butMe =  options.butMe;
 	$.each(list,function(key,val){
-		tab = this.constructor == Enemie ? elements.enemies : this.constructor == Item ? elements.items : elements.blocks;
+		tab = this.constructor == Enemy ? elements.enemies : this.constructor == Item ? elements.items : elements.blocks;
 		cY = this.y;cH = this.h;
 		if(this.onlySupport)
 			{

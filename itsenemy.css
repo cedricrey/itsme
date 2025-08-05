@@ -1,5 +1,4 @@
 /*Enemies*/
-
 .koopa, .redkoopa, .flyingKoopa, .koopaShell, .redkoopaShell, .goomba,
 .piranhaPlant, .venusFireTrap, .fireBall{
 	background: transparent url(images/enemies.png) no-repeat left top;
@@ -54,7 +53,7 @@
 	75%{background-position:-122px -93px}	
 }
 
-.enemie.turnRight{
+.enemy.turnRight{
 	-moz-transform:scaleX(-1);
 	-webkit-transform:scaleX(-1);
 	-o-transform:scaleX(-1);
@@ -70,7 +69,7 @@
 	width:16px;
 	height:16px;
 }
-.koopaShell.enemie{
+.koopaShell.enemy{
 	background-position:-71px -121px;
 	-webkit-animation:koopaShellSurf 0.4s step-start infinite;
 	-moz-animation:koopaShellSurf 0.4s step-start infinite;
@@ -87,7 +86,7 @@
 	50%{background-position:-105px -121px;}
 	75%{background-position:-122px -121px;}
 }
-.redkoopaShell.enemie{
+.redkoopaShell.enemy{
 	background-position:-2px -121px;
 	-webkit-animation:redkoopaShellSurf 0.4s step-start infinite;
 	-moz-animation:redkoopaShellSurf 0.4s step-start infinite;
@@ -105,17 +104,17 @@
 	75%{background-position:-53px -121px;}
 }
 
-.enemie.dying, .enemie.ejected{
-	-webkit-animation:enemieDie 0.3s ease-out 1 forwards;
-	-moz-animation:enemieDie 0.3s ease-out 1 forwards;	
+.enemy.dying, .enemy.ejected{
+	-webkit-animation:enemyDie 0.3s ease-out 1 forwards;
+	-moz-animation:enemyDie 0.3s ease-out 1 forwards;	
 }
-@-webkit-keyframes enemieDie{
+@-webkit-keyframes enemyDie{
 	45%{-webkit-transform: translate(20px,-50px) rotate(180deg);}
 	50%{-webkit-transform: translate(25px,-55px) rotate(180deg);}
 	60%{-webkit-transform: translate(30px,-50px) rotate(180deg);}
 	100%{-webkit-transform: translate(70px,100px) rotate(180deg);}
 }
-@-moz-keyframes enemieDie{
+@-moz-keyframes enemyDie{
 	/*20%{-moz-transform: translate(7px,-20px) rotate(50deg);}*/
 	45%{-moz-transform: translate(20px,-50px) rotate(180deg);}
 	50%{-moz-transform: translate(25px,-55px) rotate(180deg);}

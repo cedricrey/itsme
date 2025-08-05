@@ -21,7 +21,7 @@
 	width:16px;
 	height:32px;	
 }
-.bonusMushroom, .brickBlock, .emptyBlock, .woodBlock, .cloudBlock
+.bonusMushroom, .brickBlock, .emptyBlock, .woodBlock, .cloudBlock, .metalBlock
 {
 	background:transparent url(images/blocks.png) -32px -32px;
 	width:16px;
@@ -36,24 +36,24 @@
 	border-image: url(images/panel_orange.png) 8 repeat;
 }
 .bluePanel1{
-	border:8px solid #f89048;
-	background-color:#f89048;
+	border:8px solid #58c8f8;
+	background-color:#58c8f8;
 	-webkit-border-image: url(images/panel_blue.png) 8 repeat;
 	-moz-border-image: url(images/panel_blue.png) 8 repeat;
 	-o-border-image: url(images/panel_blue.png) 8 repeat;
 	border-image: url(images/panel_blue.png) 8 repeat;
 }
 .greenPanel1{
-	border:8px solid #f89048;
-	background-color:#f89048;
+	border:8px solid #80b850;
+	background-color:#80b850;
 	-webkit-border-image: url(images/panel_green.png) 8 repeat;
 	-moz-border-image: url(images/panel_green.png) 8 repeat;
 	-o-border-image: url(images/panel_green.png) 8 repeat;
 	border-image: url(images/panel_green.png) 8 repeat;
 }
 .greyPanel1{
-	border:8px solid #f89048;
-	background-color:#f89048;
+	border:8px solid #e0e0e0;
+	background-color:#e0e0e0;
 	-webkit-border-image: url(images/panel_grey.png) 8 repeat;
 	-moz-border-image: url(images/panel_grey.png) 8 repeat;
 	-o-border-image: url(images/panel_grey.png) 8 repeat;
@@ -151,6 +151,9 @@
 }
 .cloudBlock{
  	background-position:-3px -163px;	
+}
+.metalBlock{
+	background-position: -3px -86px;
 }
 .boingUp{
 	-webkit-animation:boingUp 0.3s 1 ease;
@@ -272,3 +275,4 @@
 	width: 63px; 
 	height: 48px;
 }
+

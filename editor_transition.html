@@ -2,100 +2,32 @@
 <html>
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>It's me editor</title>
+    <title>test</title>
     <link rel="stylesheet" type="text/css" media="screen" href="itsme.css" />
-    <!--script type="text/javascript" src="jquery-1.4.1.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<!-- BOOTSTRAP-->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<!-- Optional theme -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-<!-- Latest compiled and minified JavaScript -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
     <script type="text/javascript" src="itsblock.js"></script>
     <script type="text/javascript" src="itsitem.js"></script>
     <script type="text/javascript" src="itsenemy.js"></script>
 	<link rel="stylesheet" type="text/css"
     href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
     <style type="text/css">
-    *{
-    	-moz-box-sizing: border-box;
-    	box-sizing: border-box;
-
-    }
     body{
     width:100%;
 	height:100%;
 	position:relative;
 	margin:0;
-	padding:0;
-	font-family: 'Open Sans';
-}
-#menuBar{
-	/*position:fixed;*/
-	height:40px;
-	width:100%;
-	min-height: 0;
-	padding:10px 0 0 0;
-	margin: 0;
-	z-index: 1000;	
-	background-color:#FFF;
-	border-radius: 0;
-	border:none;
-	/*
-	background:-webkit-linear-gradient(#ff405d 0px, #ff4337 100%);
-	background:-moz-linear-gradient(#ff405d 0px, #ff4337 100%);
-	background:-o-linear-gradient(#ff405d 0px, #ff4337 100%);
-	background:linear-gradient(#ff405d 0px, #ff4337 100%);
-	*/
-	/*
-	-moz-transform:translate(0,-20px);
-	-webkit-transform:translate(0,-20px);
-	
-	-moz-transition:all 0.4s ease;
-	-webkit-transition:all 0.4s ease;
-	*/
-}
-
-#menuBar LI{
-	float:left;
-	list-style: none;
-	padding: 0;
-	margin: 0 10px;
-	cursor: pointer;
-	width:200px;
-	/*color:#FFF;*/
-}
-/*
-#menuBar UL{
-	background:-webkit-linear-gradient(#ff405d 0px, #ff4337 100%);
-	background:-moz-linear-gradient(#ff405d 0px, #ff4337 100%);
-	background:-o-linear-gradient(#ff405d 0px, #ff4337 100%);
-	background:linear-gradient(#ff405d 0px, #ff4337 100%);
-
-*/
-}
-#menuBar select, #menuBar input{
-	color:#ff405d;
-}
-
-#menuBar a{
-	/*color:#FFF;*/
+	padding:0
 }
 #boardView{
-	width:80%;
-	height:calc(80% - 60px);
-	height:-moz-calc(80% - 60px);
-	overflow: auto;
+	width:70%;
+	height:97%;
+	overflow: scroll;
 	display:inline-block;
 }
 #levelBoard{
 	width:2000px;
-	height:256px;
+	height:600px;
 	position:relative;
 	background-color: #DEEFFF;
 }
@@ -121,91 +53,78 @@
 }
 
 #formView{
-	width:20%;
-	height:calc(80% - 60px);
-	height:-moz-calc(80% - 60px);
+	width:29%;
+	height:100%;
 	overflow: auto;
 	display:inline-block;
-	background-color: #12131A;
-	color:#8287A9;
 }
 #formView form{
 	display:block;
-	width:100%;	
-	padding:20px;
+	width:69%;	
 	top:20px;
 	position: relative;
 	float:right;
 	font:normal 10px Arial;
 }
-/*
 #formView form section{
 	border-top:1px solid #999;
 	margin:10px 0;
 	padding: 10px 0;
+	background-color: #EFEFEF;
 }
 #formView form input{
 	border:1px solid #CCC;
+	margin-left:5px;
 }
 #formView form input[type=button]{
 	border:1px solid #FFF;
 	background-color: #DDD;
 }
-*/
 #formView form label{
-	display:inline-block;
-	margin-top: 20px;
-	width: 80px;
-	margin-right: 10px;
-	text-align: right;
-}
-#elementProps{
-	position: absolute;
-	max-height:calc(80% - 70px);
-	max-height:-moz-calc(80% - 70px);
-	width:200px;
-	right:5px;
-	top:45px;
-	background-color:#FFF;
-	border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-	overflow:auto;
-}
-
-#elementProps label{
 	display:block;
-	margin-top: 10px;
-	padding-left: 10px;
+	margin-top: 3px;
+	margin-left:5px;
 }
-#elementProps input{
-	width:80%;
-	display:block;
-	margin:0 auto;
-}
-#elementPreviewContener{
+#formView #elementPreviewContener{
+	top:20px;
 	position:relative;
-	width:100%;
-	height:20%;
-	overflow-x:hidden;
-	overflow-y:auto;
+	border:1px solid #000;
+	border-radius:4px;
+	display:inline-block;
+	width:28%;
+	overflow:hidden;
 }
-#elementPreviewContener select{
+#formView #elementsPreview{
+	position:relative;	
+}
+#menuBar{
 	position:fixed;
-	z-index: 20;
+	width:100%;
+	padding:10px 0 0 0;
+	margin: 0;
+	z-index: 1000;	
+	border:1px solid #000;
+	border-width:0 1px 1px;
+	border-radius:0 0 5px 5px;
+	background-color:#FFF;
+	-moz-transform:translate(0,-20px);
+	-webkit-transform:translate(0,-20px);
+	
+	-moz-transition:all 0.4s ease;
+	-webkit-transition:all 0.4s ease;
 }
-#elementsPreview{
-	position:relative;
+#menuBar:hover{
+	-moz-transform:translate(0);
+	-webkit-transform:translate(0);
 }
-#elementsPreview div{
-	display:inline-block;
-	margin:10px;
-	vertical-align: middle;	
+#menuBar LI{
+	float:left;
+	list-style: none;
+	padding: 0;
+	margin: 0 10px;
+	cursor: pointer;
+	width:200px;
 }
-#newElementSection{
-	display:none;
-}
-/*
 #menuBar LI:hover{
 	background-color:#DFE;
 }
@@ -219,38 +138,15 @@
 }
 #menuBar LI:hover UL{
 	display:block;
-	position:absolute;
 }
 #menuBar LI UL LI{
 	width:180px;
 	float:none;
 	border-right:none;
 }
-*/
-.ui-dialog{
-	z-index: 100000;
-}
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
 	font-size:12px;
 }
-input[type="button"]{
-	background-color: #63666b;
-	box-shadow: 2px 0 2px #929294 inset, 0 2px 2px #929294 inset, -1px 0 2px #020300 inset, 0 -1px 2px #020300 inset;
-	border:1px solid #030400;
-	border-radius: 4px;
-	color:#fff;
-	padding:0.5em 1em;
-	display: block;
-	margin:1em auto;
-	text-transform: uppercase;
-}
-
-input[type="button"]:active{
-	box-shadow: -2px 0 2px #929294 inset, 0 -2px 2px #929294 inset, 1px 0 2px #020300 inset, 0 1px 2px #020300 inset;
-	padding:0.6em 0.9em 0.4em 1.1em;
-	color:#ddd;
-}
-
 </style>
 
 <script type="text/javascript">
@@ -270,148 +166,100 @@ input[type="button"]:active{
 
 </head>
   <body>
-
-			<ul id="menuBar" class="navbar navbar-default" role="navigation">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Edition <b class="caret"></b></a> 
-					<ul class="dropdown-menu" role="menu">
-						<li>
-							<a href="#" id="menuSaveAs">Enregistrer sous...</a>					
-						</li>
-						<li>
-							<a href="#" id="menuLoad">Charger...</a>					
-						</li>
-						<li><a href="editor.html">Nouveau</a></li>
-					</ul>
+	<ul id="menuBar">
+		<li>
+			Edition 
+			<ul>
+				<li>
+					<a href="#" id="menuSaveAs">Enregistrer sous...</a>					
 				</li>
-				<li class="dropdown">
-					<a href="#"  class="dropdown-toggle" data-toggle="dropdown">Preferences </a>
-					<ul class="dropdown-menu" >
-						<li>
-							<label for="grid">Grille :</label><input type="checkbox" id="grid" checked="true"/>
-						</li>
-						<li>
-							<label for="gridStep">Pas de grille :</label><input type="text" id="gridStep" value="16" />
-						</li>
-						<li></li>
-					</ul>
+				<li>
+					<a href="#" id="menuLoad">Charger...</a>					
 				</li>
-				<li class="dropdown">
-					<a  href="#" class="dropdown-toggle" data-toggle="dropdown">Level and WarpZone :</a>
-					<ul class="dropdown-menu">
-					<li>							
-						<select id="zoneSelect">
-							<option value="level">Level principal</option>
-							<option value="addZone">++ Ajouter une zone ++</option>				
-						</select>
-					</li>
-				</ul>
+			</ul>
+		</li>
+		<li>
+			Preferences 
+			<ul>
+				<li>
+					<label for="grid">Grille :</label><input type="checkbox" id="grid" checked="true"/>
+				</li>
+				<li>
+					<label for="gridStep">Pas de grille :</label><input type="text" id="gridStep" value="16" />
 				</li>
 				<li></li>
 			</ul>
-
-	
+		</li>
+		<li>
+			Level and WarpZone :<br/><ul>
+				<li>
+					
+					<select id="zoneSelect">
+						<option value="level">Level principal</option>
+						<option value="addZone">++ Ajouter une zone ++</option>				
+					</select>
+				</li>
+			</ul>
+		</li>
+		<li></li>
+	</ul>
 	<div id="boardView">
 		<div id="levelBoard">
-			
+			itsme
 		</div>
-	</div><div id="formView">
+	</div>	
+	<div id="formView">
 		
-		
-		
-		<form id="levelForm">
-			<label for="levelWidth">Largeur : </label><input type="text" id="levelWidth" class="form-control"/>
-			<label for="levelHeight">Hauteur : </label><input type="text" id="levelHeight" class="form-control"/>			
-			<label for="levelBg">Background ? </label>
-				<select name="levelBg" id="levelBg" class="form-control">
-					<option value="">Choisir</option>
-					<option value="bg1.png">Background 1</option>
-					<option value="bg_warp1.png">Background WarpZone 1</option>
-					<option value="HTML5.png">HTML5</option>
-					<option value="background_01.png">Fond 1</option>
-					<option value="background_03.png">Fond 3</option>
-					<option value="background_06.png">Fond 6</option>
-					<option value="background_07.png">Fond 7</option>
-					<option value="background_10.png">Fond 10</option>
-					<option value="background_11.png">Fond 11</option>
-					<option value="background_14.png">Fond 14</option>
-					<option value="background_15.png">Fond 15</option>
-					<option value="background_18.png">Fond 18</option>
-					<option value="background_19.png">Fond 19</option>
-					<option value="background_21.png">Fond 21</option>
-					<option value="background_24.png">Fond 24</option>
-					<option value="background_26.png">Fond 26</option>
-					<option value="background_28.png">Fond 28</option>
-					<option value="background_29.png">Fond 29</option>
-					<option value="background_30.png">Fond 30</option>
-					<option value="background_31.png">Fond 31</option>
-					<option value="background_32.png">Fond 32</option>
-					<option value="background_33.png">Fond 33</option>
-					<option value="background_34.png">Fond 34</option>
-					<option value="background_35.png">Fond 35</option>
-					<option value="background_36.png">Fond 36</option>
-					<option value="background_37.png">Fond 37</option>
-					<option value="background_38.png">Fond 38</option>
-					<option value="background_39.png">Fond 39</option>
-					<option value="background_40.png">Fond 40</option>
-					<option value="background_41.png">Fond 41</option>
-					<option value="background_42.png">Fond 42</option>
-					<option value="background_43.png">Fond 43</option>
-					<option value="background_44.png">Fond 44</option>
-					<option value="background_45.png">Fond 45</option>
-					<option value="background_46.png">Fond 46</option>
-					<option value="background_47.png">Fond 47</option>
-					<option value="background_48.png">Fond 48</option>
-					<option value="background_49.png">Fond 49</option>
-					<option value="background_50.png">Fond 50</option>
-				</select>
-			<input type="button" value="Copier dans le presse papier" id="copyToClipboardButton" class="snesbtn"/>
-			<input type="button" value="Tester en live" id="liveTestButton" class="snesbtn"/>
-
-			
-
-			<!--input type="button" class="deleteElement" value="supprimer" class="form-control"/-->
-			
-		</form>
-	</div><section id="elementProps">
-						<section id="elementPropsForm">
-							<label for="speed">Vitesse</label>
-							<input id="speed" type="text" class="form-control"/>
-						</section>			
-						<input type="button" class="addNewField" value="ajouter un champ"/>
-						<input type="button" class="deleteElement" value="supprimer"/>
-			</section><div id="elementPreviewContener">
-		<select name="typeOfObject" id="typeOfObject" class="typeOfObject form-control">
-			<option value="items">Item</option>
-			<option value="enemies">Enemy</option>
-			<option value="blocks">Block</option>
-			<option value="decorations">Decoration</option>				
-		</select>
-		<hr/>
-		<div id="elementsPreview">
-			
-		</div>
-		<section id="newElementSection">
-			<h2>Nouvel element :</h2>
-			<label for="typeOfObject">Type</label><select name="typeOfObject" id="typeOfObject" class="typeOfObject form-control">
+		<div id="elementPreviewContener">
+			<select name="typeOfObject" class="typeOfObject">
 				<option value="items">Item</option>
 				<option value="enemies">Enemy</option>
 				<option value="blocks">Block</option>
-				<option value="decorations">Decoration</option>
+				<option value="decorations">Decoration</option>				
 			</select>
-			<select name="" id="newObjectClass">
+			<div id="elementsPreview">
 				
-			</select>
-			<input type="button" id="addElementBtn" value="ajouter" class="form-control"/>
-		</section>
+			</div>
+		</div>
+		
+		<form id="levelForm">
+			<label for="levelWidth">Largeur : </label><input type="text" id="levelWidth"/>
+			<label for="levelHeight">Hauteur : </label><input type="text" id="levelHeight"/>			
+			<label for="levelBg">Background ? </label>
+				<select name="levelBg" id="levelBg">
+					<option value="">Choisir</option>
+					<option value="bg1.png">Background 1</option>
+					<option value="bg_warp1.png">Background WarpZone 1</option>
+				</select>
+			<input type="button" value="Copier dans le presse papier" id="copyToClipboardButton"/>
+			<input type="button" value="Copier dans le presse papier V2" id="copyToClipboardButtonV2"/>
+			<input type="button" value="Tester en live" id="liveTestButton"/>
+			<section>
+				<h2>Nouvel element :</h2>
+				<label for="typeOfObject">Type</label><select name="typeOfObject" id="typeOfObject" class="typeOfObject">
+					<option value="items">Item</option>
+					<option value="enemies">Enemy</option>
+					<option value="blocks">Block</option>
+					<option value="decorations">Decoration</option>
+				</select>
+				<select name="" id="newObjectClass">
+					
+				</select>
+				<input type="button" id="addElementBtn" value="ajouter"/>
+			</section>
+			<h2>Proprieté de l'élément :</h2>
+			<input type="button" class="deleteElement" value="supprimer"/>
+			<section id="elementPropsForm">
+				<label for="speed">Vitesse</label>
+				<input id="speed" type="text"/>
+			</section>			
+			<input type="button" class="addNewField" value="ajouter un champ"/>
+			<input type="button" class="deleteElement" value="supprimer"/>			
+		</form>
 	</div>
 
+
 <script type="text/javascript">
-
-$('.dropdown-menu input, .dropdown-menu select').click(function(e) {
-    e.stopPropagation();
-});
-
 
 	var grid = true;
 	var gridStep = 4;
@@ -435,7 +283,39 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	}
 	
 	
+	$('#levelWidth').val($('#levelBoard').width());
+	$('#levelWidth').bind("change",function(){
+		$('#levelBoard').width(parseInt(this.value));
+		currentZone.width = parseInt(this.value);
+		});
 	
+	$('#levelHeight').val($('#levelBoard').height());
+	$('#levelHeight').bind("change",function(){
+		$('#levelBoard').height(parseInt(this.value));
+		/*Calcul de tous les bottom*/
+		ce =  currentElement;
+		$.each(currentZone.blocks,function(){this.refreshPosition()});
+		$.each(currentZone.items,function(){this.refreshPosition()});
+		$.each(currentZone.enemies,function(){this.refreshPosition()});
+		$.each(currentZone.decorations,function(){this.refreshPosition()});
+		setCurrentElement(ce);
+		currentZone.height = parseInt(this.value);
+		});
+	
+	
+	$('#levelBg').bind("change",function(){
+		$('#levelBoard').css("backgroundImage","url(images/bg/"+this.value+")");
+		currentZone.bg = this.value;
+		});
+	
+	level = {
+		enemies : {},
+		items : {},
+		blocks : {},
+		decorations : {},
+		warpZone : {},
+	}
+	currentZone = level;
 	
 	standardELement = {
 	startX : 0,
@@ -514,7 +394,6 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 			"brickBlock" : {},
 			"emptyBlock" : {isGroup:false},
 			"woodBlock" : {isGroup:false},
-			"metalBlock" : {isGroup:true},
 			"cloudBlock" : {onlySupport:true,isGroup:false},
 			"verticalTube" : {editor_resizable : true},
 			"hTube" : {editor_resizable : true},
@@ -552,9 +431,9 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		currTop = 0;
 		$.each(elementsType[type],function(key,val){
 			$('#newObjectClass').append($("<option val='"+key+"'>"+key+"</option>"));
-			currPrev = $('<div class="'+key+'"></div>')/*.css({
+			currPrev = $('<div class="'+key+'"></div>').css({
 										position:"absolute",
-										top:currTop+"px"})*/
+										top:currTop+"px"})
 			$('#elementsPreview').append(currPrev);
 			if(currPrev.height() < 1)
 				currPrev.height(30)
@@ -563,7 +442,7 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 			currPrev.click(function(){$('#newObjectClass').val(key).trigger("change")});
 			currTop += currPrev.height() + 3;
 		});
-		//$('#elementsPreview').height(currTop);
+		$('#elementsPreview').height(currTop);
 	}
 	/*$('#typeOfObject').change(populateClassNameSelect);*/
 	populateClassNameSelect();
@@ -615,9 +494,9 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 				currY = nearestGridStep(currY);
 				currX = nearestGridStep(currX);
 			}
-		newElement = new Element({"startX":currX,x:currX,y:currY,type:type,className:className,id:className+"_"+elementCompteur});
+		newElement = new Element({x:currX,y:currY,type:type,className:className,id:className+"_"+elementCompteur});
 		newElement.activate();		
-		currentZone[type].push(newElement);
+		currentZone[type][className+"_"+elementCompteur] = newElement;
 		node = 	newElement.node;
 		border = {top:parseInt(node.css('border-top-width')),
 					right:parseInt(node.css('border-right-width')),
@@ -626,12 +505,12 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		if(node.height() < 1)
 			{
 			node.height(32);
-			newElement.h = 32-border.top-border.bottom;
+			newElement.h = 32-border.top-boder.bottom;
 			}
 		if(node.width() < 1)
 			{
 			node.width(32);
-			newElement.w = 32-border.right-border.left;
+			newElement.w = 32-border.right-boder.left;
 			}
 		setCurrentElement(newElement);
 		elementCompteur++;
@@ -639,8 +518,7 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	$('.deleteElement').click(function(){
 		if(currentElement)
 		{
-			var ind = currentZone[currentElement.type].indexOf(currentElement);
-			delete currentZone[currentElement.type][ind];
+			delete currentZone[currentElement.type][currentElement.id];
 			currentElement.node.remove();
 			setCurrentElement(null);
 		}
@@ -659,8 +537,8 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	}
 	
 	function boardMouseDown(e){
-		curX = e.clientX + $('#boardView').scrollLeft() - $('#boardView').offset().left;
-		curY = $('#levelBoard').height() - e.clientY + $('#boardView').offset().top - $('#boardView').scrollTop();
+		curX = e.clientX + $('#boardView').scrollLeft();
+		curY = $('#levelBoard').height()-e.clientY-$('#boardView').scrollTop();
 		if((e.target == $('#levelBoard')[0] || e.target == $('#cursorPreview')[0]) && e.type == "mousedown")
 			addNewElement({x:curX,y:curY});
 		else if(e.type == "mousemove" && currentElement
@@ -722,16 +600,11 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 					}
 			break;
 			case 27:
-				setCurrentElement(null);
-				//$('#elementPropsForm').empty();
-				$('#elementProps').hide();	
+				setCurrentElement(null);				
 			break;
-			case 8:
 			case 46:
 				if(currentElement && e.target == document.body){
 					$('.deleteElement').trigger("click");
-					//$('#elementPropsForm').empty();
-					$('#elementProps').hide();	
 					e.preventDefault();
 					}
 			break;
@@ -755,7 +628,6 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 			return false;
 		currentElement.node.addClass("selected");
 		$('#elementPropsForm').empty();
-		$('#elementProps').show();
 		if(element)
 			$.each(element,function(key,val){
 				/*$("#"+key).val(val);*/
@@ -830,8 +702,6 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	}
 	$('.addNewField').click(function(){
 		fieldName = prompt("Nom de ce champ?","");
-		if(fieldName == null || fieldName == "null")
-			return;
 		if(typeof currentElement[fieldName] == "undefined")
 			addNewField(fieldName)
 		else
@@ -974,6 +844,129 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	}
 	
 	function levelToString(currLevel){
+		returned = " { items: { ";
+		$.each(currLevel.items,function(key,val){
+			if(val)
+			{
+				returned += "\n\t " + key +" : new Item("+val.x+",'"+val.className+"',{";
+				currentClassName = val.className;
+					$.each(val,function(key,val){
+						if(typeof val != "function" && key != "node" && key != "className" && key != "startX" && key.indexOf("editor_") != 0 && val != standardELement[key])
+						{						
+							returned += " \t\t" + key +" : ";
+							if(typeof val == "string")
+								returned += "'"+val.toString()+"'";
+							else
+								returned += val;
+							returned+=","
+						}
+					});
+				returned = returned.substr(0,returned.length-1);
+				returned +="}),";
+			}
+		
+		});
+		returned = returned.substr(0,returned.length-1);	
+		returned += " }, ";
+		
+		
+		returned += " \nenemies: { ";
+		$.each(currLevel.enemies,function(key,val){			
+			if(val)
+			{
+			returned += "\n\t " + key +" : new Enemy("+val.x+",'"+val.className+"',{";
+			currentClassName = val.className;
+				$.each(val,function(key,val){
+					if(typeof val != "function" && key != "node" && key != "className" && key != "startX" && key.indexOf("editor_") != 0 && val != standardELement[key])
+					{						
+						returned += " \t\t" + key +" : ";
+						if(typeof val == "string")
+							returned += "'"+val.toString()+"'";
+						else
+							returned += val;
+						returned+=","
+					}
+				});
+			returned = returned.substr(0,returned.length-1);
+			returned +="}),\n";
+			}
+		});
+		returned = returned.substr(0,returned.length-1);	
+		returned += " }, ";
+		
+		returned += " \nblocks: { ";
+		$.each(currLevel.blocks,function(key,val){			
+			if(val)
+			{
+			returned += "\n\t " + key +" : new Block({";
+			currentClassName = val.className;
+				$.each(val,function(key,val){
+					if(typeof val != "function" && key != "node" && key.indexOf("editor_") != 0 && val != standardELement[key])
+					{						
+						returned += " \t\t" + key +" : ";
+						if(typeof val == "string")
+							returned += "'"+val.toString()+"'";
+						else
+							returned += val;
+						returned+=","
+					}
+				});
+			returned = returned.substr(0,returned.length-1);
+			returned +="}),";
+			}
+		});
+		returned = returned.substr(0,returned.length-1);
+		returned += " }, ";
+		
+		returned += " \ndecorations: { ";
+		$.each(currLevel.decorations,function(key,val){			
+			if(val)
+			{
+			returned += "\n\t " + key +" : new Decoration({";
+			currentClassName = val.className;
+				$.each(val,function(key,val){
+					if(typeof val != "function" && key != "node" && key.indexOf("editor_") != 0 && val != standardELement[key])
+					{						
+						returned += " \t\t" + key +" : ";
+						if(typeof val == "string")
+							returned += "'"+val.toString()+"'";
+						else
+							returned += val;
+						returned+=","
+					}
+				});
+			returned = returned.substr(0,returned.length-1);
+			returned +="}),";
+			}
+		});
+		returned = returned.substr(0,returned.length-1);
+		returned += " }, ";
+		
+		if(currLevel.warpZone)
+		{
+			returned += " \nwarpZone: { ";
+			$.each(currLevel.warpZone,function(key,val){			
+				if(val)
+				{
+				returned += "\n\t " + key +" : ";
+				returned += levelToString(val)
+				returned +=",";
+				}
+			});
+			returned = returned.substr(0,returned.length-1);
+			returned += " }, ";
+		}
+		
+		returned += "bg:'"+currLevel.bg+"',";
+		returned += "height:"+currLevel.height+",";
+		returned += "width:"+currLevel.width+"";
+		
+		returned += " } ";
+		
+		
+		return returned;
+	}
+	function levelToString2(currLevel){
 		returned = " { \"items\": [ ";
 		$.each(currLevel.items,function(key,val){
 			if(val)
@@ -1079,7 +1072,7 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 				if(val)
 				{
 				returned += "\n\t \"" + key +"\" : ";
-				returned += levelToString(val)
+				returned += levelToString2(val)
 				returned +=",";
 				}
 			});
@@ -1088,17 +1081,14 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		}
 		
 		returned += "\"bg\":\""+currLevel.bg+"\",";
-		returned += "\"startY\":"+currLevel.startY+",";
 		returned += "\"height\":"+currLevel.height+",";
 		returned += "\"width\":"+currLevel.width+"";
-
 		
 		returned += " } ";
 		
 		
 		return returned;
 	}
-	
 	function stringToLevel(s){
 		s = decodeURI(s);
 		//console.log(s);
@@ -1114,13 +1104,13 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 				$('#levelBoard').height(level.height);
 			}
 		if(!level.enemies)
-			level.enemies = new Array();
+			level.enemies = {};
 		if(!level.items)
-			level.items = new Array();
+			level.items = {};
 		if(!level.blocks)
-			level.blocks = new Array();
+			level.blocks = {};
 		if(!level.decorations)
-			level.decorations = new Array();
+			level.decorations = {};
 		if(!level.warpZone)
 			level.warpZone = {};
 		//console.log(level);
@@ -1154,24 +1144,16 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 			$('#levelHeight').val(zone.height);
 			}		
 		$.each(zone.items,function(key,val){
-			var item = new Item(this);
-			item.activate();
-			zone.items[key] = item;
+			this.activate();
 		});
 		$.each(zone.enemies,function(key,val){
-			var enemy = new Enemy(this);
-			enemy.activate();
-			zone.enemies[key] = enemy;
+			this.activate();
 		});
 		$.each(zone.blocks,function(key,val){
-			var block = new Block(this);
-			block.activate();
-			zone.blocks[key] = block;
+			this.activate();
 		});
 		$.each(zone.decorations,function(key,val){
-			var deco = new Decoration(this);
-			deco.activate();
-			zone.decorations[key] = deco;
+			this.activate();
 		});
 		if(zone.bg)
 			{
@@ -1179,6 +1161,22 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 				$('#levelBoard').css("background-image","url(images/bg/"+zone.bg+")");				
 			}
 	}
+	if(window.location.search.indexOf("loadLevel=") != -1)
+		{
+			params = window.location.search.split("?")[1].split("&");
+			levelName = "";
+			levelString = null;
+			$.each(params,function(key,val){
+				if(val.indexOf("loadLevel=")==0)
+					levelName = val.substr(val.indexOf("=")+1);
+			});
+			if(levelName != "")
+				levelString = localStorage.getItem(levelName);
+			if(!levelString)
+				levelString = localStorage.getItem('testLevel');			
+			stringToLevel(levelString);
+			
+		}
 	
 	function openLevelString(){
 		window.open("data:"+levelToString())
@@ -1190,8 +1188,7 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		{
 			clipboardData.setData("Text", s);
 		}
-		/*
-		else if(typeof netscape != "undefined")
+		/*else if(typeof netscape != "undefined")
 		{
 			// You have to sign the code to enable this or allow the action in about:config by changing
 			//user_pref("signed.applets.codebase_principal_support", true);
@@ -1232,8 +1229,10 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	}
 	$('#copyToClipboardButton').click(function(){copyToClipboard(levelToString(level))});
 	
+	$('#copyToClipboardButtonV2').click(function(){copyToClipboard(levelToString2(level))});
+
 	function liveTest(){
-		localStorage.setItem('testLevel', levelToString(level));
+		localStorage.setItem('testLevel', levelToString2(level));
 		window.open("index.html?testlevel=true");
 	}
 	$('#liveTestButton').click(function(){liveTest()});
@@ -1242,7 +1241,7 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		this.createNode = standardActivate;
 	}*/
 	
-	function Item(options){
+	function Item(startX,className,options){
 		/*
 	$.extend(this,new standarExistingElement());
 	$.extend(this,standardELement);	
@@ -1257,12 +1256,16 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	if(options)
 		$.extend(this,options);*/
 		nOptions = {};
+		if(!options)
+		{
+			options = {startX : startX, className : className};
+		}
 		if(itemsProps[options.className])
 			$.extend(nOptions,itemsProps[options.className]);
 		$.extend(nOptions,options);
-		return new Element(nOptions);
+		return new Element($.extend({startX:startX,className:className,type:'items'},nOptions));
 	}
-	function Enemy(options){
+	function Enemy(startX,className,options){
 		/*
 	$.extend(this,new standarExistingElement());
 	$.extend(this,standardELement);	
@@ -1277,10 +1280,14 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	if(options)
 		$.extend(this,options);*/
 		nOptions = {};
+		if(!options)
+		{
+			options = {startX : startX, className : className};
+		}
 		if(enemiesProps[options.className])
 			$.extend(nOptions,enemiesProps[options.className]);
 		$.extend(nOptions,options);
-		return new Element(nOptions);
+		return new Element($.extend({startX:startX,className:className,type:'enemies'},nOptions));
 	}
 	function Block(options){
 	/*	
@@ -1316,10 +1323,10 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		if(name)
 			{
 				level.warpZone[name] = {
-					enemies : new Array(),
-					items : new Array(),
-					blocks : new Array(),
-					decorations : new Array(),
+					enemies : {},
+					items : {},
+					blocks : {},
+					decorations : {},
 				}				
 				newOption = $('<option>'+name+'</option>');
 				newOption.attr("value",name);
@@ -1342,7 +1349,7 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 	
 	function saveAs(){
 		name=prompt("Merci de donner un nom de niveau(pas d'espace ni accent)","");
-		if(name && name!="null")
+		if(name)
 			{
 				confirmation = true;
 				if(localStorage.getItem(name))
@@ -1359,18 +1366,9 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		$ask = $('<div title="Charger un niveau"></div>');
 		$levelList = $('<select></select>');
 		allOptions = "";
-		/*$.each($(localStorage),function(key,val){
-			if( localStorage.getItem(val).indexOf(items) != -1)
-			allOptions += "<option value='"+val+"'>"+val+"</option>";
+		$.each($(localStorage),function(key,val){
+		allOptions += "<option value='"+val+"'>"+val+"</option>";
 		});
-*/      
-
-		//for(var item in localStorage)
-		for (var i = 0; i < localStorage.length; i++)
-		{
-			if( localStorage.getItem(localStorage.key(i)).indexOf("items") != -1)
-			allOptions += "<option value='"+localStorage.key(i)+"'>"+localStorage.key(i)+"</option>";			
-		}
 		$levelList.html(allOptions);
 		$ask.append($levelList);
 		$valid = $("<input type='button' value='Charger le niveau selectionné'/>");
@@ -1394,68 +1392,6 @@ $('.dropdown-menu input, .dropdown-menu select').click(function(e) {
 		$ask.dialog();
 	}
 	$('#menuLoad').click(displayLoadLevel);
-
-
-	function loadPage(){
-		$('#levelWidth').val($('#levelBoard').width());
-		$('#levelWidth').bind("change",function(){
-			$('#levelBoard').width(parseInt(this.value));
-			currentZone.width = parseInt(this.value);
-			});
-		
-		$('#levelHeight').val($('#levelBoard').height());
-		$('#levelHeight').bind("change",function(){
-			$('#levelBoard').height(parseInt(this.value));
-			/*Calcul de tous les bottom*/
-			ce =  currentElement;
-			$.each(currentZone.blocks,function(){this.refreshPosition()});
-			$.each(currentZone.items,function(){this.refreshPosition()});
-			$.each(currentZone.enemies,function(){this.refreshPosition()});
-			$.each(currentZone.decorations,function(){this.refreshPosition()});
-			setCurrentElement(ce);
-			currentZone.height = parseInt(this.value);
-			});
-		
-		
-		$('#levelBg').bind("change",function(){
-			$('#levelBoard').css("backgroundImage","url(images/bg/"+this.value+")");
-			currentZone.bg = this.value;
-			});
-
-		if(window.location.search.indexOf("loadLevel=") != -1)
-			{
-				params = window.location.search.split("?")[1].split("&");
-				levelName = "";
-				levelString = null;
-				$.each(params,function(key,val){
-					if(val.indexOf("loadLevel=")==0)
-						levelName = val.substr(val.indexOf("=")+1);
-				});
-				if(levelName != "")
-					levelString = localStorage.getItem(levelName);
-				if(!levelString)
-					levelString = localStorage.getItem('testLevel');			
-				stringToLevel(levelString);
-				
-			}
-		else
-			{
-			level = {
-						enemies : new Array(),
-						items : new Array(),
-						blocks : new Array(),
-						decorations : new Array(),
-						warpZone : {},
-					}
-			currentZone = level;			
-			currentZone.width = parseInt(this.value);
-			currentZone.height = parseInt(this.value);
-			}
-		$('#elementProps').hide();
-	}
-	$(function() {
-		loadPage();
-	});
 </script>
   </body>
 </html>
